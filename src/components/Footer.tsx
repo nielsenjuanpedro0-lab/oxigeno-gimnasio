@@ -80,7 +80,7 @@ const Footer = () => (
 
       <div className="mt-16 pt-8 border-t border-border text-center">
         <p className="font-body text-xs text-muted-foreground">
-          © 2024 Gimnasio Oxígeno. Todos los derechos reservados.
+          © 2026 Gimnasio Oxígeno. Todos los derechos reservados.
         </p>
       </div>
     </div>
