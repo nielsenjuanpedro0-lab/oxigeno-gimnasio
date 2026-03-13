@@ -5,43 +5,38 @@ import PaymentModal from "./PaymentModal";
 
 const plans = [
   {
-    name: "BÁSICO",
-    price: "12.000",
-    priceNum: 12000,
+    name: "CLASE",
+    price: "20.000",
+    priceNum: 20000,
     featured: false,
     features: [
-      "Acceso sala de fuerza",
-      "Zona de cardio",
-      "Vestuarios y duchas",
-      "Horario completo",
+      "1 clase individual",
+      "Acceso por el día",
+      "Ideal para probar",
     ],
   },
   {
-    name: "PRO",
-    price: "18.000",
-    priceNum: 18000,
+    name: "BLACK",
+    price: "70.000",
+    priceNum: 70000,
     featured: true,
     badge: "MÁS POPULAR",
     features: [
-      "Todo lo del plan Básico",
-      "Clases grupales ilimitadas",
-      "Acceso Sport Club",
-      "App de rutinas",
-      "Evaluación mensual",
+      "Acceso libre diario",
+      "Máxima flexibilidad",
+      "Entrená cuando quieras",
+      "Sin restricciones de horario",
     ],
   },
   {
-    name: "ELITE",
-    price: "28.000",
-    priceNum: 28000,
+    name: "SILVER",
+    price: "60.000",
+    priceNum: 60000,
     featured: false,
     features: [
-      "Todo lo del plan Pro",
-      "Entrenamiento personal 2x/sem",
-      "Acceso Hype Fitness Showroom",
-      "Nutricionista",
-      "Prioridad en reservas",
-      "Invitados gratis (2/mes)",
+      "Acceso 3 veces por semana",
+      "Rutina organizada y constante",
+      "Ideal para mantener frecuencia",
     ],
   },
 ];
@@ -87,7 +82,9 @@ const MembershipSection = () => {
               <h3 className="font-display text-3xl tracking-wider mb-2">{plan.name}</h3>
               <div className="mb-6">
                 <span className="font-display text-5xl text-primary">${plan.price}</span>
-                <span className="font-body text-sm text-muted-foreground">/mes</span>
+                <span className="font-body text-sm text-muted-foreground">
+                  {plan.name === "CLASE" ? "/clase" : "/mes"}
+                </span>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
