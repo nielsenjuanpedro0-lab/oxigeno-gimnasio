@@ -1,5 +1,4 @@
-import { Instagram, MessageCircle } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Flame, Instagram, MessageCircle } from "lucide-react";
 
 const Footer = () => (
   <footer id="contacto" className="py-16 lg:py-24 border-t border-border">
@@ -7,8 +6,11 @@ const Footer = () => (
       <div className="grid md:grid-cols-3 gap-12 lg:gap-20">
         {/* Logo & social */}
         <div>
-          <div className="mb-4">
-            <img src={logo} alt="Oxígeno Gym" className="h-12 w-auto" />
+          <div className="flex items-center gap-2 mb-4">
+            <Flame className="w-6 h-6 text-primary" />
+            <span className="font-display text-2xl tracking-wider text-foreground">
+              OXÍGENO <span className="text-primary">GYM</span>
+            </span>
           </div>
           <p className="font-body text-sm text-muted-foreground mb-6">
             Fuerza, comunidad y resultados reales en Necochea.
