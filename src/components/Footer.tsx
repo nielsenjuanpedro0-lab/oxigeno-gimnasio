@@ -1,4 +1,5 @@
-import { Flame, Instagram, MessageCircle } from "lucide-react";
+import { Instagram, MessageCircle } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => (
   <footer id="contacto" className="py-16 lg:py-24 border-t border-border">
