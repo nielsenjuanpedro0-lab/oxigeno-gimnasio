@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Play } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import logo from "@/assets/logo.png";
 
 const stats = [
   { value: "2,385", label: "Miembros" },
@@ -20,26 +21,15 @@ const HeroSection = () => {
       </div>
 
       <div className="relative container mx-auto px-4 lg:px-8 pt-20">
-        <div className="max-w-4xl">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="section-label mb-6"
-          >
-            GIMNASIO OXÍGENO — NECOCHEA
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="font-display text-7xl sm:text-8xl lg:text-[10rem] leading-[0.85] tracking-tight mb-6"
-          >
-            MÁS QUE
-            <br />
-            <span className="text-gradient-amber">UN GIMNASIO.</span>
-          </motion.h1>
+        <div className="max-w-4xl flex flex-col items-start">
+          <motion.img
+            src={logo}
+            alt="Oxígeno Gym"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="h-28 sm:h-40 lg:h-56 w-auto mb-8"
+          />
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
