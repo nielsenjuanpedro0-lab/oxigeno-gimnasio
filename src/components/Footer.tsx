@@ -7,11 +7,8 @@ const Footer = () => (
       <div className="grid md:grid-cols-3 gap-12 lg:gap-20">
         {/* Logo & social */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Flame className="w-6 h-6 text-primary" />
-            <span className="font-display text-2xl tracking-wider text-foreground">
-              OXÍGENO <span className="text-primary">GYM</span>
-            </span>
+          <div className="mb-4">
+            <img src={logo} alt="Oxígeno Gym" className="h-12 w-auto" />
           </div>
           <p className="font-body text-sm text-muted-foreground mb-6">
             Fuerza, comunidad y resultados reales en Necochea.

@@ -9,11 +9,15 @@ interface PaymentModalProps {
   plan: { name: string; price: string; priceNum: number } | null;
 }
 
+const GYM_WHATSAPP = "5492262000000"; // Número del gimnasio
+
 const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dni, setDni] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,9 +25,32 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
     e.preventDefault();
     if (!plan) return;
     setError("");
+
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+
     setLoading(true);
 
     try {
+      // 1. Register user account
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName },
+          emailRedirectTo: window.location.origin,
+        },
+      });
+
+      if (signUpError) throw new Error(signUpError.message);
+
+      // 2. Create payment preference
       const { data, error: fnError } = await supabase.functions.invoke(
         "create-payment",
         {
@@ -41,7 +68,20 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
       if (fnError) throw new Error(fnError.message);
       if (data?.error) throw new Error(data.error);
 
-      // Redirect to MercadoPago checkout (sandbox for test mode)
+      // 3. Send WhatsApp notification to gym
+      const msg = encodeURIComponent(
+        `🏋️ *Nuevo cliente registrado*\n\n` +
+        `👤 *Nombre:* ${fullName}\n` +
+        `📧 *Email:* ${email}\n` +
+        `📱 *Teléfono:* ${phone || "No proporcionado"}\n` +
+        `🪪 *DNI:* ${dni}\n` +
+        `📋 *Plan:* ${plan.name}\n` +
+        `💰 *Precio:* $${plan.price}/mes\n\n` +
+        `El cliente fue redirigido a MercadoPago para completar el pago.`
+      );
+      window.open(`https://api.whatsapp.com/send?phone=${GYM_WHATSAPP}&text=${msg}`, "_blank");
+
+      // 4. Redirect to MercadoPago checkout
       const checkoutUrl = data.sandbox_init_point || data.init_point;
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
@@ -55,6 +95,9 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
       setLoading(false);
     }
   };
+
+  const inputClass =
+    "w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors";
 
   return (
     <AnimatePresence>
@@ -70,7 +113,7 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="glass-card rounded-xl p-8 w-full max-w-md relative"
+            className="glass-card rounded-xl p-8 w-full max-w-md relative max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
@@ -79,41 +122,28 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
 
             <h3 className="font-display text-3xl tracking-wider mb-1">SUSCRIBITE</h3>
             <p className="font-body text-muted-foreground mb-6">
-              Plan <span className="text-primary font-semibold">{plan.name}</span> — ${plan.price}/mes
+              Plan <span className="text-primary font-semibold">{plan.name}</span> — ${plan.price}
+              {plan.name === "CLASE" ? "/clase" : "/mes"}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Nombre completo"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-              />
-              <input
-                type="tel"
-                placeholder="Teléfono"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-              />
-              <input
-                type="text"
-                placeholder="DNI"
-                value={dni}
-                onChange={(e) => setDni(e.target.value)}
-                required
-                className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground font-body placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-              />
+              <div>
+                <label className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1 block">Datos personales</label>
+                <div className="space-y-3">
+                  <input type="text" placeholder="Nombre completo" value={fullName} onChange={(e) => setFullName(e.target.value)} required className={inputClass} />
+                  <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required className={inputClass} />
+                  <input type="tel" placeholder="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} />
+                  <input type="text" placeholder="DNI" value={dni} onChange={(e) => setDni(e.target.value)} required className={inputClass} />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1 block">Crear cuenta</label>
+                <div className="space-y-3">
+                  <input type="password" placeholder="Contraseña (mín. 6 caracteres)" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className={inputClass} />
+                  <input type="password" placeholder="Confirmar contraseña" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className={inputClass} />
+                </div>
+              </div>
 
               {error && <p className="text-accent text-sm font-body">{error}</p>}
 
@@ -127,7 +157,7 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                     <Loader2 className="w-4 h-4 animate-spin" /> Procesando...
                   </>
                 ) : (
-                  "Pagar con MercadoPago"
+                  "Registrarme y Pagar"
                 )}
               </button>
 

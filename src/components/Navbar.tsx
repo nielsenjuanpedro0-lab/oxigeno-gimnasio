@@ -34,11 +34,8 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-20">
-          <a href="#inicio" className="flex items-center gap-2">
-            <Flame className="w-7 h-7 text-primary" />
-            <span className="font-display text-2xl lg:text-3xl tracking-wider text-foreground">
-              OXÍGENO <span className="text-primary">GYM</span>
-            </span>
+          <a href="#inicio" className="flex items-center">
+            <img src={logo} alt="Oxígeno Gym" className="h-10 lg:h-14 w-auto" />
           </a>
 
           <div className="hidden lg:flex items-center gap-8">
