@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePayment } from "@/contexts/PaymentContext";
 import AuthModal from "./AuthModal";
 import logo from "@/assets/logo.png";
 
@@ -14,11 +15,14 @@ const navLinks = [
   { label: "Contacto", href: "#contacto" },
 ];
 
+const DEFAULT_PLAN = { name: "BLACK", price: "70.000", priceNum: 70000 };
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { openPayment } = usePayment();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -69,14 +73,12 @@ const Navbar = () => {
                 Ingresar
               </button>
             )}
-            <a
-              href="https://wa.me/5492262000000"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => openPayment(DEFAULT_PLAN)}
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-body text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_hsl(355_72%_56%/0.4)]"
             >
               Únete ahora
-            </a>
+            </button>
           </div>
 
           <button
@@ -117,17 +119,23 @@ const Navbar = () => {
                   {link.label}
                 </motion.a>
               ))}
+              <button
+                onClick={() => { openPayment(DEFAULT_PLAN); setMobileOpen(false); }}
+                className="mt-4 bg-accent text-accent-foreground font-body font-semibold px-8 py-3 rounded-full"
+              >
+                Únete ahora
+              </button>
               {user ? (
                 <button
                   onClick={() => { logout(); setMobileOpen(false); }}
-                  className="mt-4 text-muted-foreground hover:text-primary transition-colors font-body"
+                  className="text-muted-foreground hover:text-primary transition-colors font-body"
                 >
                   Cerrar sesión ({user.name})
                 </button>
               ) : (
                 <button
                   onClick={() => { setAuthOpen(true); setMobileOpen(false); }}
-                  className="mt-4 text-primary font-body text-lg"
+                  className="text-primary font-body text-lg"
                 >
                   Ingresar
                 </button>

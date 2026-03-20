@@ -9,8 +9,12 @@ import GallerySection from "@/components/GallerySection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import MobileCTA from "@/components/MobileCTA";
+import PaymentModal from "@/components/PaymentModal";
+import { PaymentProvider, usePayment } from "@/contexts/PaymentContext";
 
-const Index = () => {
+const IndexContent = () => {
+  const { selectedPlan, closePayment } = usePayment();
+
   return (
     <main>
       <Navbar />
@@ -24,8 +28,19 @@ const Index = () => {
       <TestimonialsSection />
       <Footer />
       <MobileCTA />
+      <PaymentModal
+        open={!!selectedPlan}
+        onClose={closePayment}
+        plan={selectedPlan}
+      />
     </main>
   );
 };
+
+const Index = () => (
+  <PaymentProvider>
+    <IndexContent />
+  </PaymentProvider>
+);
 
 export default Index;
