@@ -1,20 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Expand } from "lucide-react";
-import gallery1 from "@/assets/gallery-1.jpg";
-import gallery2 from "@/assets/gallery-2.jpg";
-import gallery3 from "@/assets/gallery-3.jpg";
-import gallery4 from "@/assets/gallery-4.jpg";
-import gallery5 from "@/assets/gallery-5.jpg";
-import gallery6 from "@/assets/gallery-6.jpg";
+import gym1 from "@/assets/gym-1.jpg";
+import gym2 from "@/assets/gym-2.jpg";
+import gym3 from "@/assets/gym-3.jpg";
+import gym4 from "@/assets/gym-4.jpg";
+import gym5 from "@/assets/gym-5.jpg";
 
 const images = [
-  { src: gallery1, alt: "Clases grupales", span: "col-span-2 row-span-2" },
-  { src: gallery2, alt: "Zona de pesas", span: "" },
-  { src: gallery3, alt: "Zona cardio", span: "" },
-  { src: gallery4, alt: "Yoga y stretching", span: "" },
-  { src: gallery5, alt: "Entrenamiento personal", span: "" },
-  { src: gallery6, alt: "Zona funcional", span: "col-span-2" },
+  { src: gym1, alt: "Zona de mancuernas", span: "col-span-2 row-span-2" },
+  { src: gym2, alt: "Zona de peso libre", span: "" },
+  { src: gym3, alt: "Zona de spinning", span: "" },
+  { src: gym4, alt: "Entrada al gimnasio", span: "" },
+  { src: gym5, alt: "Sala de máquinas", span: "" },
 ];
 
 const GallerySection = () => {
@@ -62,7 +60,6 @@ const GallerySection = () => {
         </div>
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
