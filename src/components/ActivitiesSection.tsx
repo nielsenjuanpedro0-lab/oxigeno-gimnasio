@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Dumbbell, Heart, Zap, Bike, Users, Leaf, Instagram, MapPin, Calendar, Clock, DollarSign, AlertTriangle } from "lucide-react";
+import { Dumbbell, Heart, Bike, Users, Leaf, Instagram, Calendar, Clock, MapPin } from "lucide-react";
 
 const activities = [
   { icon: Dumbbell, title: "Sala de Fuerza", desc: "Peso libre y máquinas de última generación" },
@@ -11,37 +11,33 @@ const activities = [
 
 const featuredClasses = [
   {
-    title: "Funcional 360",
-    emoji: "🏋🏽‍♀️",
-    description: "Entrenamiento grupal guiado",
-    coach: "@poma_ocr_trail",
-    instagram: "@funcional_trail_360",
+    title: "FUNCIONAL 360",
+    subtitle: "Entrenamiento grupal guiado",
+    coach: "Profe: @poma_ocr_trail",
+    instagramHandle: "@funcional_trail_360",
     instagramUrl: "https://www.instagram.com/funcional_trail_360",
-    location: "Gym Oxígeno – Sala de aeróbica",
-    address: "Calle 58 y 75 – Toledo",
-    days: "Lun. / Mié. / Vie.",
-    hours: "8:00, 18:30 y 19:30 hs (17:00 hs desde mayo)",
+    days: "Lun · Mié · Vie",
+    hours: "8:00 · 18:30 · 19:30 hs",
+    hoursNote: "17:00 hs desde mayo",
+    location: "Sala de aeróbica · Calle 58 y 75",
     pricing: [
-      { label: "2 x semana", price: "$45.000" },
-      { label: "3 x semana", price: "$55.000" },
+      { label: "2x sem", price: "$45.000" },
+      { label: "3x sem", price: "$55.000" },
     ],
-    limited: true,
   },
   {
     title: "G.A.P",
-    emoji: "🏋🏽‍♀️",
-    description: "Entrenamiento grupal femenino",
-    coach: "@belunatural.fit",
-    instagram: "@belunatural.fit",
+    subtitle: "Entrenamiento grupal femenino",
+    coach: "Profe: @belunatural.fit",
+    instagramHandle: "@belunatural.fit",
     instagramUrl: "https://www.instagram.com/belunatural.fit",
-    location: "Gym Oxígeno – Sala de aeróbica",
-    address: "Calle 58 y 75 – Toledo",
-    days: "Martes y Jueves",
-    hours: "14:00 y 19:00 hs",
+    days: "Mar · Jue",
+    hours: "14:00 · 19:00 hs",
+    hoursNote: null,
+    location: "Sala de aeróbica · Calle 58 y 75",
     pricing: [
-      { label: "Cuota mensual", price: "$50.000" },
+      { label: "Mensual", price: "$50.000" },
     ],
-    limited: true,
   },
 ];
 
@@ -60,8 +56,7 @@ const ActivitiesSection = () => (
         </h2>
       </motion.div>
 
-      {/* General activities grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
         {activities.map((a, i) => (
           <motion.div
             key={a.title}
@@ -78,12 +73,12 @@ const ActivitiesSection = () => (
         ))}
       </div>
 
-      {/* Featured classes */}
+      {/* Featured classes — minimal cards */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-12"
+        className="text-center mb-14"
       >
         <p className="section-label mb-4">CLASES ESPECIALES</p>
         <h3 className="font-display text-4xl lg:text-5xl tracking-tight">
@@ -91,77 +86,78 @@ const ActivitiesSection = () => (
         </h3>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
         {featuredClasses.map((cls, i) => (
           <motion.div
             key={cls.title}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.15 }}
-            className="glass-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/30 transition-colors duration-500"
+            transition={{ delay: i * 0.12, duration: 0.6 }}
+            className="group relative"
           >
-            {/* Header */}
-            <div className="bg-primary/10 px-6 py-4 border-b border-primary/20">
-              <div className="flex items-center justify-between">
-                <h4 className="font-display text-2xl tracking-wider text-foreground">
-                  {cls.emoji} {cls.title}
+            {/* Amber top accent line */}
+            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+
+            <div className="glass-card rounded-2xl pt-8 pb-6 px-7 hover:border-primary/20 border border-border/30 transition-all duration-500">
+              {/* Title row */}
+              <div className="flex items-baseline justify-between mb-1">
+                <h4 className="font-display text-3xl tracking-wider text-foreground">
+                  {cls.title}
                 </h4>
-                {cls.limited && (
-                  <span className="flex items-center gap-1 text-xs font-body font-semibold text-accent uppercase tracking-wider">
-                    <AlertTriangle className="w-3 h-3" /> Cupos limitados
-                  </span>
-                )}
+                <span className="font-body text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">
+                  Cupos limitados
+                </span>
               </div>
-              <p className="font-body text-sm text-muted-foreground mt-1">{cls.description}</p>
-            </div>
+              <p className="font-body text-sm text-muted-foreground mb-6">{cls.subtitle}</p>
 
-            {/* Details */}
-            <div className="px-6 py-5 space-y-3">
-              <div className="flex items-start gap-3">
-                <Calendar className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                <span className="font-body text-sm text-foreground">{cls.days}</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                <span className="font-body text-sm text-foreground">{cls.hours}</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <span className="font-body text-sm text-foreground block">{cls.location}</span>
-                  <span className="font-body text-xs text-muted-foreground">{cls.address}</span>
+              {/* Info grid — compact two-column */}
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-6">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-3.5 h-3.5 text-primary/70" />
+                  <span className="font-body text-xs text-foreground/80">{cls.days}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3.5 h-3.5 text-primary/70" />
+                  <span className="font-body text-xs text-foreground/80">{cls.hours}</span>
+                </div>
+                <div className="flex items-center gap-2 col-span-2">
+                  <MapPin className="w-3.5 h-3.5 text-primary/70 shrink-0" />
+                  <span className="font-body text-xs text-foreground/80">{cls.location}</span>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Instagram className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <span className="font-body text-xs text-muted-foreground block">Profe: {cls.coach}</span>
-                  <a
-                    href={cls.instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-body text-sm text-primary hover:underline"
+
+              {cls.hoursNote && (
+                <p className="font-body text-[11px] text-muted-foreground/70 italic mb-5">
+                  * {cls.hoursNote}
+                </p>
+              )}
+
+              {/* Pricing pills */}
+              <div className="flex items-center gap-3 mb-5">
+                {cls.pricing.map((p) => (
+                  <div
+                    key={p.label}
+                    className="flex items-baseline gap-1.5 bg-primary/5 border border-primary/10 rounded-full px-4 py-1.5"
                   >
-                    {cls.instagram}
-                  </a>
-                </div>
+                    <span className="font-display text-lg text-primary leading-none">{p.price}</span>
+                    <span className="font-body text-[10px] text-muted-foreground uppercase tracking-wider">{p.label}</span>
+                  </div>
+                ))}
               </div>
 
-              {/* Pricing */}
-              <div className="pt-3 border-t border-border/50">
-                <div className="flex items-center gap-2 mb-2">
-                  <DollarSign className="w-4 h-4 text-primary" />
-                  <span className="font-body text-xs text-muted-foreground uppercase tracking-wider">Cuota mensual</span>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  {cls.pricing.map((p) => (
-                    <div key={p.label} className="bg-secondary/50 rounded-lg px-4 py-2">
-                      <span className="font-display text-lg text-primary">{p.price}</span>
-                      <span className="font-body text-xs text-muted-foreground block">{p.label}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* Coach + IG link */}
+              <div className="flex items-center justify-between pt-4 border-t border-border/30">
+                <span className="font-body text-xs text-muted-foreground">{cls.coach}</span>
+                <a
+                  href={cls.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 font-body text-xs text-primary hover:text-primary/80 transition-colors"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                  {cls.instagramHandle}
+                </a>
               </div>
             </div>
           </motion.div>
