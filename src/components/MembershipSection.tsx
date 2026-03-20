@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Star, MessageCircle } from "lucide-react";
-import PaymentModal from "./PaymentModal";
+import { usePayment } from "@/contexts/PaymentContext";
 
 const plans = [
   {
@@ -42,7 +42,7 @@ const plans = [
 ];
 
 const MembershipSection = () => {
-  const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+  const { openPayment } = usePayment();
 
   return (
     <section id="membresias" className="py-24 lg:py-32">
@@ -97,7 +97,7 @@ const MembershipSection = () => {
               </ul>
 
               <button
-                onClick={() => setSelectedPlan(plan)}
+                onClick={() => openPayment(plan)}
                 className={`text-center font-body font-semibold py-3 rounded-full transition-all duration-300 cursor-pointer ${
                   plan.featured
                     ? "bg-accent text-accent-foreground hover:shadow-[0_0_25px_hsl(355_72%_56%/0.4)]"
@@ -127,12 +127,6 @@ const MembershipSection = () => {
           </a>
         </motion.div>
       </div>
-
-      <PaymentModal
-        open={!!selectedPlan}
-        onClose={() => setSelectedPlan(null)}
-        plan={selectedPlan}
-      />
     </section>
   );
 };
