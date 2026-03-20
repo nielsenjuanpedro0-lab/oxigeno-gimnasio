@@ -5,6 +5,7 @@ import ActivitiesSection from "@/components/ActivitiesSection";
 import ScheduleSection from "@/components/ScheduleSection";
 import RoutinesSection from "@/components/RoutinesSection";
 import MembershipSection from "@/components/MembershipSection";
+import GallerySection from "@/components/GallerySection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import MobileCTA from "@/components/MobileCTA";
