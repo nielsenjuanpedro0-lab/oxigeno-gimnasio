@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone can insert members" ON public.members FOR INSERT TO public WITH CHECK (true);
