@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Loader2, User, Mail, Phone, CreditCard, Lock, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { X, Loader2, User, Mail, Phone, CreditCard, Copy, CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PaymentModalProps {
@@ -9,18 +9,24 @@ interface PaymentModalProps {
   plan: { name: string; price: string; priceNum: number } | null;
 }
 
-const GYM_WHATSAPP = "5492262000000";
+const GYM_WHATSAPP = "5492262664679";
+
+// Mock transfer data — replace with real data
+const TRANSFER_DATA = {
+  alias: "OXIGENO.GYM.MP",
+  cvu: "0000003100012345678901",
+  titular: "Oxígeno Gym",
+};
 
 const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dni, setDni] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [copied, setCopied] = useState<string | null>(null);
 
   const resetForm = () => {
     setStep(1);
@@ -28,9 +34,8 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
     setEmail("");
     setPhone("");
     setDni("");
-    setPassword("");
-    setConfirmPassword("");
     setError("");
+    setCopied(null);
   };
 
   const handleClose = () => {
@@ -48,81 +53,63 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
     setStep(2);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleStep2 = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!plan) return;
     setError("");
-
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName },
-          emailRedirectTo: window.location.origin,
-        },
-      });
+      // Save member in DB
+      const { error: dbError } = await supabase
+        .from("members")
+        .insert({
+          full_name: fullName,
+          email,
+          phone,
+          dni,
+          plan: plan.name,
+          plan_price: plan.priceNum,
+          payment_status: "pending",
+        });
 
-      if (signUpError) throw new Error(signUpError.message);
+      if (dbError) throw new Error(dbError.message);
 
-      const { data, error: fnError } = await supabase.functions.invoke(
-        "create-payment",
-        {
-          body: {
-            full_name: fullName,
-            email,
-            phone,
-            dni,
-            plan: plan.name,
-            plan_price: plan.priceNum,
-          },
-        }
-      );
-
-      if (fnError) throw new Error(fnError.message);
-      if (data?.error) throw new Error(data.error);
-
-      const msg = encodeURIComponent(
-        `🏋️ *Nuevo cliente registrado*\n\n` +
-        `👤 *Nombre:* ${fullName}\n` +
-        `📧 *Email:* ${email}\n` +
-        `📱 *Teléfono:* ${phone || "No proporcionado"}\n` +
-        `🪪 *DNI:* ${dni}\n` +
-        `📋 *Plan:* ${plan.name}\n` +
-        `💰 *Precio:* $${plan.price}/mes\n\n` +
-        `El cliente fue redirigido a MercadoPago para completar el pago.`
-      );
-      window.open(`https://api.whatsapp.com/send?phone=${GYM_WHATSAPP}&text=${msg}`, "_blank");
-
-      const checkoutUrl = data.sandbox_init_point || data.init_point;
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        throw new Error("No se pudo generar el link de pago");
-      }
+      setStep(3);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Error al procesar el pago";
+      const msg = err instanceof Error ? err.message : "Error al registrar";
       setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(label);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  const handleWhatsApp = () => {
+    const msg = encodeURIComponent(
+      `🏋️ *Nuevo inscripto — Oxígeno Gym*\n\n` +
+      `👤 *Nombre:* ${fullName}\n` +
+      `📧 *Email:* ${email}\n` +
+      `📱 *Teléfono:* ${phone || "No proporcionado"}\n` +
+      `🪪 *DNI:* ${dni}\n` +
+      `📋 *Plan:* ${plan?.name}\n` +
+      `💰 *Precio:* $${plan?.price}\n\n` +
+      `💳 Adjunto comprobante de transferencia.`
+    );
+    window.open(`https://wa.me/${GYM_WHATSAPP}?text=${msg}`, "_blank");
+  };
+
   const inputWrapperClass = "relative group";
   const iconClass = "absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors";
   const inputClass =
     "w-full bg-secondary/50 border border-border/60 rounded-xl pl-10 pr-4 py-3.5 text-foreground font-body text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary focus:bg-secondary/80 focus:shadow-[0_0_0_3px_hsl(var(--primary)/0.1)] transition-all duration-200";
+
+  const totalSteps = 3;
 
   return (
     <AnimatePresence>
@@ -154,7 +141,7 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                 </div>
                 <div>
                   <h3 className="font-display text-2xl tracking-wider leading-none">INSCRIPCIÓN</h3>
-                  <p className="font-body text-xs text-muted-foreground mt-0.5">Paso {step} de 2</p>
+                  <p className="font-body text-xs text-muted-foreground mt-0.5">Paso {step} de {totalSteps}</p>
                 </div>
               </div>
 
@@ -169,15 +156,16 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
 
               {/* Progress bar */}
               <div className="flex gap-1.5 mt-4">
-                <div className="h-1 flex-1 rounded-full bg-primary transition-all duration-500" />
-                <div className={`h-1 flex-1 rounded-full transition-all duration-500 ${step === 2 ? "bg-primary" : "bg-border/50"}`} />
+                {[1, 2, 3].map((s) => (
+                  <div key={s} className={`h-1 flex-1 rounded-full transition-all duration-500 ${s <= step ? "bg-primary" : "bg-border/50"}`} />
+                ))}
               </div>
             </div>
 
             {/* Body */}
             <div className="px-7 py-6">
               <AnimatePresence mode="wait">
-                {step === 1 ? (
+                {step === 1 && (
                   <motion.form
                     key="step1"
                     initial={{ opacity: 0, x: -10 }}
@@ -224,32 +212,18 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                       Continuar →
                     </button>
                   </motion.form>
-                ) : (
+                )}
+
+                {step === 2 && (
                   <motion.form
                     key="step2"
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 10 }}
                     transition={{ duration: 0.2 }}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleStep2}
                     className="space-y-4"
                   >
-                    <div>
-                      <label className="font-body text-xs font-medium text-foreground/80 uppercase tracking-widest mb-3 block">
-                        Creá tu cuenta
-                      </label>
-                      <div className="space-y-3">
-                        <div className={inputWrapperClass}>
-                          <Lock className={iconClass} />
-                          <input type="password" placeholder="Contraseña (mín. 6 caracteres)" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className={inputClass} />
-                        </div>
-                        <div className={inputWrapperClass}>
-                          <ShieldCheck className={iconClass} />
-                          <input type="password" placeholder="Confirmar contraseña" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className={inputClass} />
-                        </div>
-                      </div>
-                    </div>
-
                     {/* Summary */}
                     <div className="bg-secondary/40 rounded-xl p-4 space-y-1.5">
                       <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-2">Resumen</p>
@@ -260,6 +234,10 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                       <div className="flex justify-between font-body text-sm">
                         <span className="text-muted-foreground">Email</span>
                         <span className="text-foreground font-medium">{email}</span>
+                      </div>
+                      <div className="flex justify-between font-body text-sm">
+                        <span className="text-muted-foreground">DNI</span>
+                        <span className="text-foreground font-medium">{dni}</span>
                       </div>
                       <div className="flex justify-between font-body text-sm">
                         <span className="text-muted-foreground">Plan</span>
@@ -288,18 +266,103 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                       >
                         {loading ? (
                           <>
-                            <Loader2 className="w-4 h-4 animate-spin" /> Procesando...
+                            <Loader2 className="w-4 h-4 animate-spin" /> Registrando...
                           </>
                         ) : (
-                          "Confirmar y Pagar"
+                          "Confirmar registro"
                         )}
                       </button>
                     </div>
+                  </motion.form>
+                )}
+
+                {step === 3 && (
+                  <motion.div
+                    key="step3"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-5"
+                  >
+                    <div className="text-center">
+                      <div className="w-14 h-14 rounded-full bg-green-500/15 flex items-center justify-center mx-auto mb-3">
+                        <CheckCircle2 className="w-7 h-7 text-green-500" />
+                      </div>
+                      <h4 className="font-display text-xl tracking-wider mb-1">¡REGISTRO EXITOSO!</h4>
+                      <p className="font-body text-sm text-muted-foreground">
+                        Ahora realizá la transferencia y envianos el comprobante
+                      </p>
+                    </div>
+
+                    {/* Transfer details */}
+                    <div className="bg-secondary/50 border border-border/50 rounded-xl p-5 space-y-4">
+                      <p className="font-body text-xs font-medium text-foreground/80 uppercase tracking-widest">
+                        Datos para transferir
+                      </p>
+
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-body text-xs text-muted-foreground">Alias</p>
+                            <p className="font-body text-sm font-semibold text-foreground">{TRANSFER_DATA.alias}</p>
+                          </div>
+                          <button
+                            onClick={() => handleCopy(TRANSFER_DATA.alias, "alias")}
+                            className="flex items-center gap-1.5 text-xs font-body text-primary hover:text-primary/80 bg-primary/10 px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            {copied === "alias" ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copied === "alias" ? "Copiado" : "Copiar"}
+                          </button>
+                        </div>
+
+                        <div className="border-t border-border/30" />
+
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-body text-xs text-muted-foreground">CVU</p>
+                            <p className="font-body text-sm font-semibold text-foreground break-all">{TRANSFER_DATA.cvu}</p>
+                          </div>
+                          <button
+                            onClick={() => handleCopy(TRANSFER_DATA.cvu, "cvu")}
+                            className="flex items-center gap-1.5 text-xs font-body text-primary hover:text-primary/80 bg-primary/10 px-3 py-1.5 rounded-lg transition-colors shrink-0 ml-3"
+                          >
+                            {copied === "cvu" ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copied === "cvu" ? "Copiado" : "Copiar"}
+                          </button>
+                        </div>
+
+                        <div className="border-t border-border/30" />
+
+                        <div>
+                          <p className="font-body text-xs text-muted-foreground">Titular</p>
+                          <p className="font-body text-sm font-semibold text-foreground">{TRANSFER_DATA.titular}</p>
+                        </div>
+
+                        <div className="border-t border-border/30" />
+
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-body text-xs text-muted-foreground">Monto a transferir</p>
+                            <p className="font-display text-lg text-primary">${plan.price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* WhatsApp CTA */}
+                    <button
+                      onClick={handleWhatsApp}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-body font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all duration-300 text-sm"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Enviar comprobante por WhatsApp
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
 
                     <p className="text-xs text-muted-foreground/70 text-center font-body">
-                      🔒 Serás redirigido a MercadoPago para completar el pago de forma segura.
+                      Una vez confirmado el pago, te habilitamos el acceso al gym 💪
                     </p>
-                  </motion.form>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
