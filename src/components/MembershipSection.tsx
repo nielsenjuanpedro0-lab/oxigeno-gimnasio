@@ -117,7 +117,7 @@ const MembershipSection = () => {
           className="text-center mt-12"
         >
           <a
-            href="https://wa.me/5492262000000"
+            href="https://wa.me/5492262664679"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-body text-muted-foreground hover:text-foreground transition-colors"
