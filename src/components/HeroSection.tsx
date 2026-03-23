@@ -13,7 +13,7 @@ const HeroSection = () => {
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <img src={heroBg} alt="Gimnasio Oxígeno interior" className="w-full h-full object-cover" loading="eager" />
+        <img src={heroBg} alt="Gimnasio Oxígeno interior" className="w-full h-full object-cover scale-150 sm:scale-100" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 to-transparent" />
         <div className="absolute inset-0 grain-overlay" />
