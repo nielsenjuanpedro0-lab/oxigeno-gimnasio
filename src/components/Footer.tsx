@@ -59,7 +59,7 @@ const Footer = () => (
             <p>Av 58 n° 3752</p>
             <p>Necochea, Argentina 7630</p>
             <a
-              href="https://wa.me/5492262000000"
+              href="https://wa.me/5492262664679"
               target="_blank"
               rel="noopener noreferrer"
               className="block hover:text-primary transition-colors"

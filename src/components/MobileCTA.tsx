@@ -15,7 +15,7 @@ const MobileCTA = () => {
         ÚNETE AHORA
       </button>
       <a
-        href="https://wa.me/5492262000000"
+        href="https://wa.me/5492262664679"
         target="_blank"
         rel="noopener noreferrer"
         className="w-12 bg-green-600 rounded-full flex items-center justify-center shrink-0"
