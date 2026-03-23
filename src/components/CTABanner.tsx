@@ -21,7 +21,7 @@ const CTABanner = () => (
           Primeras 2 semanas de prueba sin costo. Sin compromisos, sin excusas.
         </p>
         <a
-          href="https://wa.me/5492262000000"
+          href="https://wa.me/5492262664679"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-body font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_0_40px_hsl(355_72%_56%/0.4)] animate-pulse-glow"

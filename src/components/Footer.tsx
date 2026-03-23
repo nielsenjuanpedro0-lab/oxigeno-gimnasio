@@ -25,7 +25,7 @@ const Footer = () => (
               <Instagram className="w-5 h-5" />
             </a>
             <a
-              href="https://wa.me/5492262000000"
+              href="https://wa.me/5492262664679"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-green-500 hover:border-green-500/50 transition-colors"
@@ -59,7 +59,7 @@ const Footer = () => (
             <p>Av 58 n° 3752</p>
             <p>Necochea, Argentina 7630</p>
             <a
-              href="https://wa.me/5492262000000"
+              href="https://wa.me/5492262664679"
               target="_blank"
               rel="noopener noreferrer"
               className="block hover:text-primary transition-colors"
