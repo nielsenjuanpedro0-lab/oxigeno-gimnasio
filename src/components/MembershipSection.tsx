@@ -6,6 +6,7 @@ import Reveal from "./Reveal";
 const plans = [
   {
     name: "CLASE",
+    label: "Clase",
     price: "20.000",
     priceNum: 20000,
     unit: "por clase",
@@ -16,6 +17,7 @@ const plans = [
   },
   {
     name: "SILVER",
+    label: "Silver",
     price: "60.000",
     priceNum: 60000,
     unit: "por mes",
@@ -26,6 +28,7 @@ const plans = [
   },
   {
     name: "BLACK",
+    label: "Black",
     price: "70.000",
     priceNum: 70000,
     unit: "por mes",
@@ -61,17 +64,12 @@ const MembershipSection = () => {
     openPayment({ name: plan.name, price: plan.price, priceNum: plan.priceNum });
 
   return (
-    <section id="membresias" className="bg-surface-1 py-20 lg:py-28">
+    <section id="membresias" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
-        <SectionHeader
-          index="05"
-          label="Membresías"
-          title="ELEGÍ"
-          titleSecondLine="TU PLAN"
-        />
+        <SectionHeader label="Membresías" title="Elegí tu plan" />
 
         {/* Desktop: comparación horizontal */}
-        <Reveal className="mt-14 hidden lg:block">
+        <Reveal className="mt-16 hidden lg:block">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">
               Comparación de planes de membresía del Gimnasio Oxígeno
@@ -83,21 +81,23 @@ const MembershipSection = () => {
                   <th
                     key={plan.name}
                     scope="col"
-                    className={`border-t-2 px-6 pb-6 pt-5 align-top ${
-                      plan.featured ? "border-primary" : "border-foreground/80"
+                    className={`border-t px-6 pb-7 pt-6 align-top ${
+                      plan.featured ? "border-primary" : "border-border"
                     }`}
                   >
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-display text-3xl font-normal tracking-wide">
+                      <span className="section-label text-foreground text-xs">
                         {plan.name}
                       </span>
                       {plan.featured && (
                         <span className="section-label text-primary">Más elegido</span>
                       )}
                     </div>
-                    <p className="mt-4">
-                      <span className="data text-3xl text-primary">${plan.price}</span>
-                      <span className="font-body text-sm text-muted-foreground ml-2">
+                    <p className="mt-5 flex items-baseline gap-2">
+                      <span className="data text-[2rem] font-light text-foreground leading-none">
+                        ${plan.price}
+                      </span>
+                      <span className="font-body text-[0.8125rem] text-muted-foreground">
                         {plan.unit}
                       </span>
                     </p>
@@ -108,7 +108,7 @@ const MembershipSection = () => {
             <tbody>
               {rows.map((row) => (
                 <tr key={row.key} className="border-t border-border">
-                  <th scope="row" className="section-label py-5 pr-6 align-top">
+                  <th scope="row" className="section-label text-muted-foreground py-5 pr-6 align-top">
                     {row.label}
                   </th>
                   {plans.map((plan) => (
@@ -131,7 +131,7 @@ const MembershipSection = () => {
                         plan.featured ? "btn-primary" : "btn-secondary"
                       } btn-md w-full`}
                     >
-                      Elegir {plan.name}
+                      Elegir {plan.label}
                     </button>
                   </td>
                 ))}
@@ -145,20 +145,22 @@ const MembershipSection = () => {
           {plans.map((plan, i) => (
             <Reveal key={plan.name} delay={i * 0.06}>
               <div
-                className={`border-t-2 pt-5 ${
-                  plan.featured ? "border-primary" : "border-foreground/80"
+                className={`border-t pt-6 ${
+                  plan.featured ? "border-primary" : "border-border"
                 }`}
               >
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-display text-3xl tracking-wide">{plan.name}</h3>
+                  <h3 className="section-label text-foreground text-xs">{plan.name}</h3>
                   {plan.featured && (
                     <span className="section-label text-primary">Más elegido</span>
                   )}
                 </div>
 
-                <p className="mt-3">
-                  <span className="data text-3xl text-primary">${plan.price}</span>
-                  <span className="font-body text-sm text-muted-foreground ml-2">
+                <p className="mt-4 flex items-baseline gap-2">
+                  <span className="data text-[2rem] font-light text-foreground leading-none">
+                    ${plan.price}
+                  </span>
+                  <span className="font-body text-[0.8125rem] text-muted-foreground">
                     {plan.unit}
                   </span>
                 </p>
@@ -166,7 +168,7 @@ const MembershipSection = () => {
                 <dl className="mt-5">
                   {rows.map((row) => (
                     <div key={row.key} className="flex gap-4 border-t border-border py-3">
-                      <dt className="section-label w-24 shrink-0 pt-0.5">{row.label}</dt>
+                      <dt className="section-label text-muted-foreground w-24 shrink-0 pt-0.5">{row.label}</dt>
                       <dd className="font-body text-sm text-foreground/90">
                         {plan[row.key]}
                       </dd>
@@ -180,7 +182,7 @@ const MembershipSection = () => {
                     plan.featured ? "btn-primary" : "btn-secondary"
                   } btn-md mt-5 w-full`}
                 >
-                  Elegir {plan.name}
+                  Elegir {plan.label}
                 </button>
               </div>
             </Reveal>

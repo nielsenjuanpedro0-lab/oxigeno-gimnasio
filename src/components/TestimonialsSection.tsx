@@ -43,25 +43,20 @@ const testimonials = [
  * dato en mono.
  */
 const TestimonialsSection = () => (
-  <section className="py-20 lg:py-28">
+  <section className="py-24 lg:py-36">
     <div className="container">
-      <SectionHeader
-        index="07"
-        label="Testimonios"
-        title="LO QUE DICE"
-        titleSecondLine="LA COMUNIDAD"
-      />
+      <SectionHeader label="Testimonios" title="Lo que dice la comunidad" />
 
-      <div className="mt-14 grid gap-x-14 gap-y-2 md:grid-cols-2">
+      <div className="mt-16 grid gap-x-16 gap-y-2 md:grid-cols-2">
         {testimonials.map((t, i) => (
           <Reveal key={t.name} delay={i < 3 ? i * 0.06 : 0.18}>
             <figure className="border-t border-border py-8">
-              <blockquote className="font-body text-lg leading-relaxed text-foreground/90 sm:text-xl">
+              <blockquote className="font-body text-[1.0625rem] leading-[1.65] text-foreground/85">
                 {t.quote}
               </blockquote>
               <figcaption className="mt-5 flex items-baseline gap-4">
-                <span className="font-display text-xl tracking-wide">{t.name}</span>
-                <span className="data text-xs text-primary">{t.rating}/5</span>
+                <span className="font-body text-sm font-medium">{t.name}</span>
+                <span className="data text-xs text-muted-foreground">{t.rating}/5</span>
               </figcaption>
             </figure>
           </Reveal>

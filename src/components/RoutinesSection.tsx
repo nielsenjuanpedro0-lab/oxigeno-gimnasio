@@ -15,14 +15,12 @@ const capabilities = [
  * lista de lo que va a traer.
  */
 const RoutinesSection = () => (
-  <section id="rutinas" className="py-20 lg:py-28">
+  <section id="rutinas" className="py-24 lg:py-36">
     <div className="container">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <SectionHeader
-          index="06"
           label="Próximamente"
-          title="TUS RUTINAS"
-          titleSecondLine="EN TU CELULAR"
+          title="Tus rutinas en tu celular"
           description="Estamos desarrollando la app oficial de Oxígeno. Vas a poder acceder a rutinas personalizadas, seguir tu progreso y reservar turnos desde el celular."
           className="lg:col-span-5"
         />
@@ -31,11 +29,11 @@ const RoutinesSection = () => (
           {capabilities.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.06}>
               <div className="flex items-baseline gap-5 border-t border-border py-5">
-                <span className="data text-xs text-primary shrink-0">
+                <span className="data text-xs text-muted-foreground/60 shrink-0">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-body font-semibold text-foreground mb-1">
+                  <h3 className="font-body font-medium text-foreground mb-1.5">
                     {item.title}
                   </h3>
                   <p className="font-body text-sm text-muted-foreground">{item.desc}</p>

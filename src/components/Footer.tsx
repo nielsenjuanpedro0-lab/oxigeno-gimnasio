@@ -1,15 +1,15 @@
 import { Flame, Instagram, MessageCircle } from "lucide-react";
 
 const Footer = () => (
-  <footer id="contacto" className="py-16 lg:py-24 border-t border-border">
+  <footer id="contacto" className="py-20 lg:py-28 border-t border-border">
     <div className="container">
       <div className="grid md:grid-cols-3 gap-12 lg:gap-20">
         {/* Logo & social */}
         <div>
           <div className="flex items-center gap-2 mb-4">
             <Flame className="w-6 h-6 text-primary" />
-            <span className="font-display text-2xl tracking-wider text-foreground">
-              OXÍGENO <span className="text-primary">GYM</span>
+            <span className="font-display text-lg font-medium text-foreground">
+              Oxígeno <span className="text-primary">Gym</span>
             </span>
           </div>
           <p className="font-body text-sm text-muted-foreground mb-6">
@@ -39,7 +39,7 @@ const Footer = () => (
 
         {/* Quick links */}
         <div>
-          <h4 className="font-display text-xl tracking-wider mb-4">LINKS</h4>
+          <h4 className="section-label text-muted-foreground mb-5">Navegación</h4>
           <ul className="space-y-2">
             {["Inicio", "Nosotros", "Actividades", "Rutinas", "Membresías"].map((l) => (
               <li key={l}>
@@ -56,7 +56,7 @@ const Footer = () => (
 
         {/* Address */}
         <div>
-          <h4 className="font-display text-xl tracking-wider mb-4">CONTACTO</h4>
+          <h4 className="section-label mb-5">Contacto</h4>
           <div className="font-body text-sm text-muted-foreground space-y-2">
             <p>Av. 58 n° 3752</p>
             <p>Necochea, Argentina 7630</p>

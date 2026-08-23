@@ -18,9 +18,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Bebas Neue"', 'sans-serif'],
-        body: ['"DM Sans"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        // Una sola familia: la jerarquía la dan peso, tamaño y tracking.
+        display: ['"Inter Tight"', 'system-ui', 'sans-serif'],
+        body: ['"Inter Tight"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -47,7 +47,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors duration-200"
+                className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
               >
                 {link.label}
               </a>
@@ -68,7 +68,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => setAuthOpen(true)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
+                className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Ingresar
               </button>
@@ -116,7 +116,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
                   onClick={() => setMobileOpen(false)}
-                  className="font-display text-4xl tracking-wider text-foreground hover:text-primary transition-colors"
+                  className="font-display text-3xl font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {link.label}
                 </motion.a>

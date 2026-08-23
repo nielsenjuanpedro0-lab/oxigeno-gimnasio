@@ -1,50 +1,33 @@
 import Reveal from "./Reveal";
 
 interface SectionHeaderProps {
-  /** Número de orden editorial: "01", "02"… El único ámbar de la cabecera. */
-  index: string;
   label: string;
   title: string;
-  /** Segunda línea del titular. Se rompe a propósito, como en un titular de revista. */
-  titleSecondLine?: string;
   description?: string;
   className?: string;
 }
 
 /**
- * Cabecera de sección editorial.
+ * Cabecera de sección.
  *
- * Reemplaza el bloque "eyebrow centrado + H2 centrado con degradé ámbar" que estaba
- * repetido en nueve secciones. Va alineada a la izquierda, numerada, y la regla corre
- * hasta el borde del contenedor para dar el corte horizontal de una página impresa.
+ * Sin numeración: el "01 / 02.1" de la versión anterior leía como documento técnico.
+ * Queda una etiqueta discreta, una regla fina y el titular en caja baja con tracking
+ * negativo. El titular es notablemente más chico que antes — en una página premium el
+ * peso lo da el espacio alrededor del texto, no el cuerpo de la tipografía.
  */
-const SectionHeader = ({
-  index,
-  label,
-  title,
-  titleSecondLine,
-  description,
-  className = "",
-}: SectionHeaderProps) => (
+const SectionHeader = ({ label, title, description, className = "" }: SectionHeaderProps) => (
   <Reveal className={className}>
-    <div className="flex items-center gap-4 mb-5">
-      <span className="data text-primary text-xs font-bold">{index}</span>
-      <span className="section-label">{label}</span>
+    <div className="flex items-center gap-5 mb-8">
+      <span className="section-label text-muted-foreground shrink-0">{label}</span>
       <span className="flex-1 h-px bg-border" />
     </div>
 
-    <h2 className="font-display text-[2.75rem] leading-[0.9] tracking-[0.01em] sm:text-6xl lg:text-7xl">
+    <h2 className="font-display text-[1.75rem] font-medium leading-[1.1] sm:text-4xl lg:text-[2.75rem]">
       {title}
-      {titleSecondLine && (
-        <>
-          <br />
-          <span className="text-muted-foreground">{titleSecondLine}</span>
-        </>
-      )}
     </h2>
 
     {description && (
-      <p className="font-body text-muted-foreground mt-5 max-w-xl leading-relaxed">
+      <p className="font-body text-[0.9375rem] text-muted-foreground mt-5 max-w-lg leading-relaxed">
         {description}
       </p>
     )}

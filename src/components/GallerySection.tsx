@@ -33,16 +33,11 @@ const GallerySection = () => {
   }, [lightbox]);
 
   return (
-    <section id="instalaciones" className="bg-surface-1 py-20 lg:py-28">
+    <section id="instalaciones" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
-        <SectionHeader
-          index="04"
-          label="Instalaciones"
-          title="NUESTRO"
-          titleSecondLine="ESPACIO"
-        />
+        <SectionHeader label="Instalaciones" title="Nuestro espacio" />
 
-        <Reveal className="mt-14">
+        <Reveal className="mt-16">
           <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">
             {images.map((img) => (
               <button

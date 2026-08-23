@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,50 +6,56 @@
 
 @layer base {
   :root {
-    /* Escala de superficies opacas. La profundidad viene del fondo, no del blur. */
-    --background: 0 0% 4%;
-    --surface-1: 0 0% 6%;
-    --surface-2: 0 0% 8%;
-    --foreground: 0 0% 100%;
+    /*
+     * Neutros tibios. El negro puro y el blanco puro dan un contraste duro;
+     * un tinte cálido mínimo hace que la página se lea asentada en vez de estridente.
+     */
+    --background: 30 5% 6%;
+    --surface-1: 30 5% 8%;
+    --surface-2: 30 4% 10%;
+    --foreground: 40 12% 94%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 100%;
+    --card: 30 4% 10%;
+    --card-foreground: 40 12% 94%;
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 30 5% 8%;
+    --popover-foreground: 40 12% 94%;
 
-    /* Ámbar: único color de marca. Poco uso, mucho peso. */
-    --primary: 37 91% 55%;
-    --primary-foreground: 0 0% 4%;
+    /*
+     * Bronce apagado. El ámbar anterior (91% de saturación) era territorio de
+     * bebida energética; desaturado a 45% se lee metal, no neón.
+     */
+    --primary: 36 45% 62%;
+    --primary-foreground: 30 6% 7%;
 
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 30 4% 10%;
+    --secondary-foreground: 40 12% 94%;
 
-    --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 58%;
+    --muted: 30 4% 10%;
+    --muted-foreground: 35 6% 58%;
 
-    /* Rojo: solo señal — cupos, urgencia, error. Nunca decorativo. */
-    --signal: 355 72% 56%;
-    --accent: 355 72% 56%;
-    --accent-foreground: 0 0% 100%;
+    /* Señal: cupos, urgencia, error. También desaturado. */
+    --signal: 8 52% 58%;
+    --accent: 8 52% 58%;
+    --accent-foreground: 40 12% 94%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 8 52% 52%;
+    --destructive-foreground: 40 12% 94%;
 
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 37 91% 55%;
+    --border: 30 5% 15%;
+    --input: 30 5% 15%;
+    --ring: 36 45% 62%;
 
     --radius: 2px;
 
-    --sidebar-background: 0 0% 6%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 37 91% 55%;
-    --sidebar-primary-foreground: 0 0% 4%;
-    --sidebar-accent: 0 0% 12%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 37 91% 55%;
+    --sidebar-background: 30 5% 8%;
+    --sidebar-foreground: 40 12% 94%;
+    --sidebar-primary: 36 45% 62%;
+    --sidebar-primary-foreground: 30 6% 7%;
+    --sidebar-accent: 30 4% 12%;
+    --sidebar-accent-foreground: 40 12% 94%;
+    --sidebar-border: 30 5% 15%;
+    --sidebar-ring: 36 45% 62%;
   }
 }
 
@@ -60,21 +66,22 @@
 
   html {
     scroll-behavior: smooth;
-    /* La navbar fija mide 4rem/5rem: sin esto los anchors quedan tapados. */
     scroll-padding-top: 5rem;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "cv05" 1, "ss01" 1;
   }
 
+  /*
+   * Una sola familia en toda la página. La jerarquía la dan el peso, el tamaño y
+   * el tracking — no fuentes distintas. Los titulares van con tracking negativo,
+   * que es lo que separa una tipografía compuesta de una tipografía puesta.
+   */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-normal;
-  }
-
-  /* Todo dato numérico alinea en columna. */
-  .font-mono, code, kbd, samp {
-    font-variant-numeric: tabular-nums;
+    @apply font-display font-medium;
+    letter-spacing: -0.022em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -93,16 +100,16 @@
 
 @layer components {
   /*
-   * Botones. Rectangulares, sólidos, sin glow.
-   * El primario es ámbar sobre negro: 8.9:1 de contraste.
+   * Botones delgados. La altura baja, el peso baja y las mayúsculas se van:
+   * un botón premium no grita, sostiene.
    */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-body font-semibold
-           uppercase tracking-[0.08em] leading-none rounded-[2px]
-           transition-colors duration-200
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-           focus-visible:ring-offset-2 focus-visible:ring-offset-background
+    @apply inline-flex items-center justify-center gap-2 font-body font-medium
+           leading-none rounded-[2px] transition-colors duration-300
+           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
+           focus-visible:ring-offset-4 focus-visible:ring-offset-background
            disabled:opacity-40 disabled:pointer-events-none;
+    letter-spacing: -0.01em;
   }
 
   .btn-primary {
@@ -110,8 +117,8 @@
   }
 
   .btn-secondary {
-    @apply btn border border-foreground/25 text-foreground
-           hover:border-foreground/60 hover:bg-foreground/5;
+    @apply btn border border-foreground/20 text-foreground
+           hover:border-foreground/45 hover:bg-foreground/[0.03];
   }
 
   .btn-signal {
@@ -119,33 +126,42 @@
   }
 
   .btn-lg {
-    @apply text-sm px-8 h-14;
+    @apply text-[0.9375rem] px-7 h-[3.25rem];
   }
 
   .btn-md {
-    @apply text-xs px-6 h-11;
+    @apply text-sm px-6 h-12;
   }
 
   .btn-sm {
-    @apply text-[11px] px-4 h-9;
+    @apply text-[0.8125rem] px-5 h-10;
   }
 
-  /* Link de texto: subrayado desplazado, sin cambio de color al pasar. */
   .link-underline {
-    @apply underline decoration-1 underline-offset-4 decoration-foreground/30
-           hover:decoration-foreground transition-colors duration-200;
+    @apply underline decoration-[0.5px] underline-offset-[5px] decoration-foreground/25
+           hover:decoration-foreground/70 transition-colors duration-300;
   }
 }
 
 @layer utilities {
-  /* Eyebrow de sección: mono, no ámbar. El color lo carga el número. */
+  /*
+   * Etiqueta de sección: versalita discreta. El tracking es amplio pero medido
+   * —0.14em, no 0.3em—: abierto de más se vuelve decorativo.
+   */
   .section-label {
-    @apply font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground;
+    @apply font-body text-[0.6875rem] font-medium uppercase;
+    letter-spacing: 0.14em;
   }
 
-  /* Dato tabular: horarios, precios, días. */
+  /*
+   * Datos numéricos. Inter Tight trae cifras de ancho fijo por OpenType, así que
+   * horarios y precios alinean en columna sin recurrir a una monoespaciada, que
+   * arrastraba estética de terminal.
+   */
   .data {
-    @apply font-mono tabular-nums;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    letter-spacing: -0.01em;
   }
 
   .rule {
@@ -153,7 +169,7 @@
   }
 
   .grain-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
   }
 
   .scrollbar-hide {

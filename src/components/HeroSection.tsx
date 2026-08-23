@@ -10,15 +10,15 @@ const stats = [
 const HeroSection = () => {
   const reduced = useReducedMotion();
   const rise = (delay: number) => ({
-    initial: reduced ? { opacity: 0 } : { opacity: 0, y: 20 },
+    initial: reduced ? { opacity: 0 } : { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { delay, duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
   });
 
   return (
     <section
       id="inicio"
-      className="relative flex min-h-[100svh] items-end overflow-hidden pb-16 pt-28 lg:pb-24"
+      className="relative flex min-h-[100svh] items-end overflow-hidden pb-14 pt-28 lg:pb-20"
     >
       <div className="absolute inset-0">
         {/*
@@ -33,34 +33,37 @@ const HeroSection = () => {
           loading="eager"
         />
         {/* Scrim vertical: asienta el bloque de texto sobre la foto. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/30" />
-        {/* Scrim lateral: garantiza contraste del titular, que va alineado a la izquierda. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent lg:via-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/88 to-background/45" />
+        {/* Scrim lateral: garantiza contraste del titular, alineado a la izquierda. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/65 to-transparent lg:via-background/45" />
         <div className="absolute inset-0 grain-overlay" />
       </div>
 
       <div className="container relative">
-        <motion.p {...rise(0.1)} className="section-label mb-6">
-          Gimnasio Oxígeno — Necochea
+        <motion.p {...rise(0.15)} className="section-label text-muted-foreground mb-7">
+          Gimnasio Oxígeno · Necochea
         </motion.p>
 
+        {/*
+          El titular bajó de 10rem a 4rem. En una página premium la presencia la da
+          el espacio alrededor del texto, no el cuerpo de la tipografía; a 10rem en
+          condensada mayúscula la página gritaba.
+        */}
         <motion.h1
-          {...rise(0.2)}
-          className="font-display text-[3.25rem] leading-[0.86] tracking-[0.01em] sm:text-8xl lg:text-[8.5rem] xl:text-[10rem]"
+          {...rise(0.25)}
+          className="max-w-3xl font-display text-[2.5rem] font-medium leading-[1.05] sm:text-6xl lg:text-[4rem]"
         >
-          MÁS QUE
-          <br />
-          UN GIMNASIO
+          Más que un gimnasio
         </motion.h1>
 
         <motion.p
-          {...rise(0.3)}
-          className="font-body text-lg text-muted-foreground mt-7 max-w-md leading-relaxed"
+          {...rise(0.35)}
+          className="font-body text-[1.0625rem] text-muted-foreground mt-7 max-w-md leading-relaxed"
         >
           Fuerza, comunidad y resultados reales. Tu mejor versión empieza acá.
         </motion.p>
 
-        <motion.div {...rise(0.4)} className="mt-10 flex flex-col gap-3 sm:flex-row">
+        <motion.div {...rise(0.45)} className="mt-10 flex flex-col gap-3 sm:flex-row">
           <a href="#membresias" className="btn-primary btn-lg">
             Ver membresías
           </a>
@@ -69,18 +72,20 @@ const HeroSection = () => {
           </a>
         </motion.div>
 
-        {/* Datos duros en fila, separados por reglas. Antes eran píldoras de vidrio. */}
+        {/* Datos duros en fila, separados por reglas. */}
         <motion.dl
-          {...rise(0.55)}
-          className="mt-16 grid grid-cols-1 border-t border-border sm:grid-cols-3"
+          {...rise(0.6)}
+          className="mt-16 grid grid-cols-1 border-t border-border/70 sm:grid-cols-3 lg:mt-20"
         >
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="border-b border-border py-5 sm:border-b-0 sm:border-r sm:pr-6 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-6"
+              className="border-b border-border/70 py-5 sm:border-b-0 sm:border-r sm:border-border/70 sm:pr-6 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-8"
             >
-              <dt className="data text-2xl text-primary leading-none">{stat.value}</dt>
-              <dd className="section-label mt-2">{stat.label}</dd>
+              <dt className="data text-xl font-light text-foreground leading-none">
+                {stat.value}
+              </dt>
+              <dd className="section-label text-muted-foreground mt-2.5">{stat.label}</dd>
             </div>
           ))}
         </motion.dl>

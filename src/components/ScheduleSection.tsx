@@ -14,14 +14,12 @@ const schedule = [
  * estructura son una tabla, y como tabla se comparan de un vistazo.
  */
 const ScheduleSection = () => (
-  <section id="horarios" className="py-20 lg:py-28">
+  <section id="horarios" className="py-24 lg:py-36">
     <div className="container">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <SectionHeader
-          index="03"
           label="Horarios"
-          title="HORARIO"
-          titleSecondLine="CORRIDO"
+          title="Horario corrido"
           description="Vení a entrenar en el horario que mejor te quede."
           className="lg:col-span-5"
         />
@@ -34,12 +32,12 @@ const ScheduleSection = () => (
                 <tr key={item.day} className="border-t border-border">
                   <th
                     scope="row"
-                    className="py-5 text-left font-display text-2xl font-normal tracking-wide sm:text-3xl"
+                    className="py-6 text-left font-display text-lg font-medium sm:text-xl"
                   >
                     {item.day}
                   </th>
                   <td
-                    className={`py-5 text-right data text-base sm:text-lg ${
+                    className={`py-6 text-right data text-base sm:text-lg ${
                       item.open ? "text-primary" : "text-muted-foreground"
                     }`}
                   >

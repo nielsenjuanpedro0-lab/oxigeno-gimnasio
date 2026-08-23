@@ -44,8 +44,8 @@ const featuredClasses = [
 /** Fila de dato: etiqueta fija a la izquierda, valor en mono para que alineen entre clases. */
 const DataRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex gap-4 py-2.5 border-t border-border">
-    <dt className="section-label w-20 shrink-0 pt-0.5">{label}</dt>
-    <dd className="data text-sm text-foreground/90">{value}</dd>
+    <dt className="section-label text-muted-foreground w-24 shrink-0 pt-0.5">{label}</dt>
+    <dd className="data text-sm text-foreground/85">{value}</dd>
   </div>
 );
 
@@ -53,25 +53,20 @@ const ActivitiesSection = () => {
   const { openPayment } = usePayment();
 
   return (
-    <section id="actividades" className="py-20 lg:py-28">
+    <section id="actividades" className="py-24 lg:py-36">
       <div className="container">
-        <SectionHeader
-          index="02"
-          label="Actividades"
-          title="TODO LO QUE"
-          titleSecondLine="PODÉS ENTRENAR"
-        />
+        <SectionHeader label="Actividades" title="Todo lo que podés entrenar" />
 
         {/* Índice de actividades: sin cajas, sin íconos. La numeración da el orden. */}
-        <div className="mt-14 grid gap-x-16 md:grid-cols-2">
+        <div className="mt-16 grid gap-x-20 md:grid-cols-2">
           {activities.map((a, i) => (
             <Reveal key={a.title} delay={i < 3 ? i * 0.06 : 0.18}>
               <div className="flex items-baseline gap-5 border-t border-border py-6">
-                <span className="data text-xs text-primary shrink-0">
+                <span className="data text-xs text-muted-foreground/60 shrink-0">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-display text-2xl tracking-wide leading-none mb-1.5">
+                  <h3 className="font-body text-base font-medium leading-snug mb-1.5">
                     {a.title}
                   </h3>
                   <p className="font-body text-sm text-muted-foreground leading-relaxed">
@@ -84,25 +79,18 @@ const ActivitiesSection = () => {
         </div>
 
         {/* Clases con profe */}
-        <div className="mt-24 lg:mt-32">
-          <SectionHeader
-            index="02.1"
-            label="Clases especiales"
-            title="ENTRENÁ"
-            titleSecondLine="CON PROFES"
-          />
+        <div className="mt-28 lg:mt-40">
+          <SectionHeader label="Clases especiales" title="Entrená con profes" />
 
-          <div className="mt-14 space-y-14 lg:space-y-20">
+          <div className="mt-16 space-y-16 lg:space-y-24">
             {featuredClasses.map((cls, i) => (
               <Reveal key={cls.title} delay={i * 0.08}>
-                <article className="grid gap-8 border-t-2 border-foreground/80 pt-7 lg:grid-cols-12 lg:gap-12">
+                <article className="grid gap-8 border-t border-border pt-8 lg:grid-cols-12 lg:gap-12">
                   {/* Identidad */}
                   <div className="lg:col-span-5">
                     {/* El aviso va de kicker sobre el título: pegado a lo que califica. */}
-                    <p className="data text-[10px] uppercase tracking-[0.18em] text-signal mb-2">
-                      Cupos limitados
-                    </p>
-                    <h3 className="font-display text-4xl leading-none tracking-wide sm:text-5xl">
+                    <p className="section-label text-signal mb-3">Cupos limitados</p>
+                    <h3 className="font-display text-2xl font-medium leading-tight sm:text-[1.75rem]">
                       {cls.title}
                     </h3>
                     <p className="font-body text-muted-foreground mt-3">{cls.subtitle}</p>
@@ -133,7 +121,7 @@ const ActivitiesSection = () => {
 
                   {/* Inscripción: cada opción de precio es su propio CTA. */}
                   <div className="lg:col-span-3">
-                    <p className="section-label mb-3">Inscribirme</p>
+                    <p className="section-label text-muted-foreground mb-3">Inscribirme</p>
                     <div className="space-y-2">
                       {cls.pricing.map((p, pi) => {
                         const isPrimary = pi === cls.pricing.length - 1;
@@ -151,10 +139,8 @@ const ActivitiesSection = () => {
                               isPrimary ? "btn-primary" : "btn-secondary"
                             } btn-md w-full justify-between`}
                           >
-                            <span className="normal-case tracking-normal font-body font-medium">
-                              {p.label}
-                            </span>
-                            <span className="data font-bold text-sm">{p.price}</span>
+                            <span className="font-body">{p.label}</span>
+                            <span className="data font-medium">{p.price}</span>
                           </button>
                         );
                       })}
