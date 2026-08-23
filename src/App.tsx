@@ -1,29 +1,31 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
-const queryClient = new QueryClient();
-
+/**
+ * Raíz de la aplicación.
+ *
+ * Se desmontaron QueryClientProvider, TooltipProvider, Toaster y Sonner: estaban
+ * montados desde el andamiaje inicial pero ningún componente de la página los usaba,
+ * y entraban igual al bundle principal.
+ *
+ * LazyMotion con el subconjunto domAnimation evita arrastrar el motor completo de
+ * framer-motion —layout projection y drag, que acá no se usan—; los componentes se
+ * importan como `m` en lugar de `motion`.
+ */
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  <AuthProvider>
+    <LazyMotion features={domAnimation} strict>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </LazyMotion>
+  </AuthProvider>
 );
 
 export default App;

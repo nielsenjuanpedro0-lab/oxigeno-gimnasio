@@ -10,7 +10,14 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "images": "python3 scripts/optimize-images.py",
+    "shots": "node scripts/shots.mjs",
+    "check:opacity": "node scripts/check-opacity.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:headings": "node scripts/check-headings.mjs",
+    "check:perf": "node scripts/check-perf.mjs",
+    "check:runtime": "node scripts/check-runtime.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -42,7 +49,6 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@supabase/supabase-js": "^2.99.1",
-    "@tanstack/react-query": "^5.83.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePayment } from "@/contexts/PaymentContext";
-import AuthModal from "./AuthModal";
+
 import logo from "@/assets/logo.png";
+
+/** Solo se descarga cuando el visitante abre el acceso. */
+const AuthModal = lazy(() => import("./AuthModal"));
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -12,6 +15,7 @@ const navLinks = [
   { label: "Actividades", href: "#actividades" },
   { label: "Horarios", href: "#horarios" },
   { label: "Membresías", href: "#membresias" },
+  { label: "Convenios", href: "#convenios" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -34,10 +38,10 @@ const Navbar = () => {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "bg-background/95 backdrop-blur-md border-b border-border/50" : "bg-transparent"
+          scrolled ? "bg-background/90 backdrop-blur-md border-b border-border" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-20">
+        <div className="container flex items-center justify-between h-16 lg:h-20">
           <a href="#inicio" className="flex items-center">
             <img src={logo} alt="Oxígeno Gym" className="h-10 lg:h-14 w-auto" />
           </a>
@@ -47,7 +51,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-body uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors duration-300"
+                className="nav-link"
               >
                 {link.label}
               </a>
@@ -68,14 +72,14 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => setAuthOpen(true)}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
+                className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Ingresar
               </button>
             )}
             <button
               onClick={() => openPayment(DEFAULT_PLAN)}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-body text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_hsl(355_72%_56%/0.4)]"
+              className="btn-primary btn-sm"
             >
               Únete ahora
             </button>
@@ -83,6 +87,7 @@ const Navbar = () => {
 
           <button
             className="lg:hidden text-foreground"
+            aria-label="Abrir menú"
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="w-6 h-6" />
@@ -93,35 +98,36 @@ const Navbar = () => {
       {/* Mobile overlay */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-background/98 backdrop-blur-xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center"
           >
             <button
               className="absolute top-5 right-5 text-foreground"
+              aria-label="Cerrar menú"
               onClick={() => setMobileOpen(false)}
             >
               <X className="w-7 h-7" />
             </button>
             <div className="flex flex-col items-center gap-6">
               {navLinks.map((link, i) => (
-                <motion.a
+                <m.a
                   key={link.href}
                   href={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
                   onClick={() => setMobileOpen(false)}
-                  className="font-display text-4xl tracking-wider text-foreground hover:text-primary transition-colors"
+                  className="font-display text-3xl font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {link.label}
-                </motion.a>
+                </m.a>
               ))}
               <button
                 onClick={() => { openPayment(DEFAULT_PLAN); setMobileOpen(false); }}
-                className="mt-4 bg-accent text-accent-foreground font-body font-semibold px-8 py-3 rounded-full"
+                className="btn-primary btn-md mt-4"
               >
                 Únete ahora
               </button>
@@ -141,11 +147,15 @@ const Navbar = () => {
                 </button>
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
+      {authOpen && (
+        <Suspense fallback={null}>
+          <AuthModal open onClose={() => setAuthOpen(false)} />
+        </Suspense>
+      )}
     </>
   );
 };

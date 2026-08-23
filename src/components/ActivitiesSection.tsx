@@ -1,184 +1,155 @@
-import { motion } from "framer-motion";
-import { Dumbbell, Heart, Bike, Users, Leaf, Instagram, Calendar, Clock, MapPin } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { usePayment } from "@/contexts/PaymentContext";
+import SectionHeader from "./SectionHeader";
+import Reveal from "./Reveal";
 
 const activities = [
-  { icon: Dumbbell, title: "Sala de Fuerza", desc: "Peso libre y máquinas de última generación" },
-  { icon: Heart, title: "Aeróbicos", desc: "Clases grupales de alta energía" },
-  { icon: Bike, title: "Cardio", desc: "Zona completa de equipos cardiovasculares" },
-  { icon: Users, title: "Clases Grupales", desc: "Spinning, zumba, body pump y más" },
-  { icon: Leaf, title: "Yoga & Stretching", desc: "Flexibilidad, movilidad y recuperación" },
+  { title: "Sala de fuerza", desc: "Peso libre y máquinas de última generación" },
+  { title: "Aeróbicos", desc: "Clases grupales de alta energía" },
+  { title: "Cardio", desc: "Zona completa de equipos cardiovasculares" },
+  { title: "Clases grupales", desc: "Spinning, zumba, body pump y más" },
+  { title: "Yoga & stretching", desc: "Flexibilidad, movilidad y recuperación" },
 ];
 
 const featuredClasses = [
   {
     title: "FUNCIONAL 360",
     subtitle: "Entrenamiento grupal guiado",
-    coach: "Profe: @poma_ocr_trail",
+    coach: "@poma_ocr_trail",
     instagramHandle: "@funcional_trail_360",
     instagramUrl: "https://www.instagram.com/funcional_trail_360",
     days: "Lun · Mié · Vie",
-    hours: "8:00 · 18:30 · 19:30 hs",
+    hours: "8:00 · 18:30 · 19:30",
     hoursNote: "17:00 hs desde mayo",
     location: "Sala de aeróbica · Calle 58 y 75",
     pricing: [
-      { label: "2x sem", price: "$45.000", priceNum: 45000 },
-      { label: "3x sem", price: "$55.000", priceNum: 55000 },
+      { label: "2x semana", price: "$45.000", priceNum: 45000 },
+      { label: "3x semana", price: "$55.000", priceNum: 55000 },
     ],
   },
   {
     title: "G.A.P",
     subtitle: "Entrenamiento grupal femenino",
-    coach: "Profe: @belunatural.fit",
+    coach: "@belunatural.fit",
     instagramHandle: "@belunatural.fit",
     instagramUrl: "https://www.instagram.com/belunatural.fit",
     days: "Mar · Jue",
-    hours: "14:00 · 19:00 hs",
+    hours: "14:00 · 19:00",
     hoursNote: null,
     location: "Sala de aeróbica · Calle 58 y 75",
-    pricing: [
-      { label: "Mensual", price: "$50.000", priceNum: 50000 },
-    ],
+    pricing: [{ label: "Mensual", price: "$50.000", priceNum: 50000 }],
   },
 ];
+
+/** Fila de dato: etiqueta fija a la izquierda, valor en mono para que alineen entre clases. */
+const DataRow = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex gap-4 py-2.5 border-t border-border">
+    <dt className="section-label text-muted-foreground w-24 shrink-0 pt-0.5">{label}</dt>
+    <dd className="data text-sm text-foreground/85">{value}</dd>
+  </div>
+);
 
 const ActivitiesSection = () => {
   const { openPayment } = usePayment();
 
   return (
-    <section id="actividades" className="py-24 lg:py-32 bg-secondary/30">
-      <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="section-label mb-4">ACTIVIDADES</p>
-          <h2 className="font-display text-5xl lg:text-6xl tracking-tight">
-            NUESTRAS <span className="text-gradient-amber">ACTIVIDADES</span>
-          </h2>
-        </motion.div>
+    <section id="actividades" className="py-24 lg:py-36">
+      <div className="container">
+        <SectionHeader label="Actividades" title="TODO LO QUE PODÉS" accent="ENTRENAR" />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+        {/* Índice de actividades: sin cajas, sin íconos. La numeración da el orden. */}
+        <div className="mt-16 grid gap-x-20 md:grid-cols-2">
           {activities.map((a, i) => (
-            <motion.div
-              key={a.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card-hover rounded-xl p-8 group"
-            >
-              <a.icon className="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="font-display text-2xl tracking-wide mb-2">{a.title}</h3>
-              <p className="font-body text-sm text-muted-foreground">{a.desc}</p>
-            </motion.div>
+            <Reveal key={a.title} delay={i < 3 ? i * 0.06 : 0.18}>
+              <div className="flex items-baseline gap-5 border-t border-border py-6">
+                <span className="data text-xs text-muted-foreground/60 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-lg uppercase leading-snug mb-1.5">
+                    {a.title}
+                  </h3>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                    {a.desc}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
           ))}
         </div>
 
-        {/* Featured classes */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <p className="section-label mb-4">CLASES ESPECIALES</p>
-          <h3 className="font-display text-4xl lg:text-5xl tracking-tight">
-            ENTRENÁ CON <span className="text-gradient-amber">PROFES</span>
-          </h3>
-        </motion.div>
+        {/* Clases con profe */}
+        <div className="mt-28 lg:mt-40">
+          <SectionHeader label="Clases especiales" title="ENTRENÁ CON" accent="PROFES" />
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {featuredClasses.map((cls, i) => (
-            <motion.div
-              key={cls.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6 }}
-              className="group relative"
-            >
-              <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+          <div className="mt-16 space-y-16 lg:space-y-24">
+            {featuredClasses.map((cls, i) => (
+              <Reveal key={cls.title} delay={i * 0.08}>
+                <article className="grid gap-8 border-t border-border pt-8 lg:grid-cols-12 lg:gap-12">
+                  {/* Identidad */}
+                  <div className="lg:col-span-5">
+                    {/* El aviso va de kicker sobre el título: pegado a lo que califica. */}
+                    <p className="section-label text-primary mb-3">Cupos limitados</p>
+                    <h3 className="font-display text-[2rem] uppercase leading-none sm:text-4xl">
+                      {cls.title}
+                    </h3>
+                    <p className="font-body text-muted-foreground mt-3">{cls.subtitle}</p>
 
-              <div className="glass-card rounded-2xl pt-8 pb-6 px-7 hover:border-primary/20 border border-border/30 transition-all duration-500">
-                <div className="flex items-baseline justify-between mb-1">
-                  <h4 className="font-display text-3xl tracking-wider text-foreground">
-                    {cls.title}
-                  </h4>
-                  <span className="font-body text-[10px] uppercase tracking-[0.2em] text-accent font-semibold">
-                    Cupos limitados
-                  </span>
-                </div>
-                <p className="font-body text-sm text-muted-foreground mb-6">{cls.subtitle}</p>
-
-                <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-6">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-primary/70" />
-                    <span className="font-body text-xs text-foreground/80">{cls.days}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5 text-primary/70" />
-                    <span className="font-body text-xs text-foreground/80">{cls.hours}</span>
-                  </div>
-                  <div className="flex items-center gap-2 col-span-2">
-                    <MapPin className="w-3.5 h-3.5 text-primary/70 shrink-0" />
-                    <span className="font-body text-xs text-foreground/80">{cls.location}</span>
-                  </div>
-                </div>
-
-                {cls.hoursNote && (
-                  <p className="font-body text-[11px] text-muted-foreground/70 italic mb-5">
-                    * {cls.hoursNote}
-                  </p>
-                )}
-
-                {/* Pricing pills as buttons */}
-                <div className="flex flex-wrap items-center gap-3 mb-5">
-                  {cls.pricing.map((p) => (
-                    <button
-                      key={p.label}
-                      onClick={() => openPayment({
-                        name: `${cls.title} (${p.label})`,
-                        price: p.price.replace("$", ""),
-                        priceNum: p.priceNum,
-                      })}
-                      className="flex items-baseline gap-1.5 bg-primary/5 border border-primary/10 rounded-full px-4 py-1.5 hover:bg-primary/15 hover:border-primary/30 transition-all duration-300 cursor-pointer"
+                    <a
+                      href={cls.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-6 font-body text-sm text-foreground/70 hover:text-foreground transition-colors"
                     >
-                      <span className="font-display text-lg text-primary leading-none">{p.price}</span>
-                      <span className="font-body text-[10px] text-muted-foreground uppercase tracking-wider">{p.label}</span>
-                    </button>
-                  ))}
-                </div>
+                      <Instagram className="w-4 h-4" aria-hidden="true" />
+                      <span className="link-underline">{cls.instagramHandle}</span>
+                    </a>
+                  </div>
 
-                {/* Inscribite button */}
-                <button
-                  onClick={() => openPayment({
-                    name: `${cls.title} (${cls.pricing[cls.pricing.length - 1].label})`,
-                    price: cls.pricing[cls.pricing.length - 1].price.replace("$", ""),
-                    priceNum: cls.pricing[cls.pricing.length - 1].priceNum,
-                  })}
-                  className="w-full bg-accent/10 border border-accent/20 text-accent font-body font-semibold text-sm py-2.5 rounded-full hover:bg-accent hover:text-accent-foreground transition-all duration-300 mb-4"
-                >
-                  Inscribirme →
-                </button>
+                  {/* Datos */}
+                  <dl className="lg:col-span-4">
+                    <DataRow label="Días" value={cls.days} />
+                    <DataRow label="Horarios" value={cls.hours} />
+                    <DataRow label="Lugar" value={cls.location} />
+                    <DataRow label="Profe" value={cls.coach} />
+                    {cls.hoursNote && (
+                      <p className="font-body text-xs text-muted-foreground/70 pt-3">
+                        * {cls.hoursNote}
+                      </p>
+                    )}
+                  </dl>
 
-                <div className="flex items-center justify-between pt-4 border-t border-border/30">
-                  <span className="font-body text-xs text-muted-foreground">{cls.coach}</span>
-                  <a
-                    href={cls.instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 font-body text-xs text-primary hover:text-primary/80 transition-colors"
-                  >
-                    <Instagram className="w-3.5 h-3.5" />
-                    {cls.instagramHandle}
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Inscripción: cada opción de precio es su propio CTA. */}
+                  <div className="lg:col-span-3">
+                    <p className="section-label text-muted-foreground mb-3">Inscribirme</p>
+                    <div className="space-y-2">
+                      {cls.pricing.map((p, pi) => {
+                        const isPrimary = pi === cls.pricing.length - 1;
+                        return (
+                          <button
+                            key={p.label}
+                            onClick={() =>
+                              openPayment({
+                                name: `${cls.title} (${p.label})`,
+                                price: p.price.replace("$", ""),
+                                priceNum: p.priceNum,
+                              })
+                            }
+                            className={`${
+                              isPrimary ? "btn-primary" : "btn-secondary"
+                            } btn-md w-full justify-between`}
+                          >
+                            <span className="font-body">{p.label}</span>
+                            <span className="data font-medium">{p.price}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
