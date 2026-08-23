@@ -1,0 +1,43 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Reescritura de aplicación de página única.
+#
+# El sitio usa react-router. Sin esta regla, cualquier URL que no sea la raíz
+# —un enlace compartido a /membresias, por ejemplo— devuelve el 404 de Netlify
+# en lugar de cargar la aplicación, porque en el disco no existe ese archivo.
+# El código 200 hace que Netlify sirva index.html sin redirigir, así la barra de
+# direcciones conserva la ruta original.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Los nombres de los archivos de assets incluyen un hash del contenido: si cambia
+# el contenido, cambia el nombre. Por eso se pueden cachear para siempre sin riesgo
+# de servir una versión vieja.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# El HTML no se cachea: es lo que apunta a la versión vigente de los assets.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
