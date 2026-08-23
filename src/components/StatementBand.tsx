@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import gym3 from "@/assets/gym-3.jpg";
+import gymWall from "@/assets/gym-5.jpg";
 
 /**
  * Franja de manifiesto.
@@ -17,13 +17,17 @@ const StatementBand = () => {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src={gym3}
+          src={gymWall}
           alt=""
           aria-hidden="true"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover grayscale"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-background/78" />
+        {/*
+          Velo fuerte y desaturado: la foto acá es textura de fondo, no protagonista.
+          Sin esto el ámbar del titular competía con los grises claros del equipamiento.
+        */}
+        <div className="absolute inset-0 bg-background/90" />
         <div className="absolute inset-0 grain-overlay" />
       </div>
 

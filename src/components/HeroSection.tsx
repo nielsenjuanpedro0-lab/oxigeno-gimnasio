@@ -33,7 +33,7 @@ const HeroSection = () => {
           loading="eager"
         />
         {/* Scrim vertical: asienta el bloque de texto sobre la foto. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/88 to-background/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/45" />
         {/* Scrim lateral: garantiza contraste del titular, alineado a la izquierda. */}
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/65 to-transparent lg:via-background/45" />
         <div className="absolute inset-0 grain-overlay" />
