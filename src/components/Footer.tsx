@@ -41,7 +41,7 @@ const Footer = () => (
         <div>
           <h4 className="section-label text-muted-foreground mb-5">Navegación</h4>
           <ul className="space-y-2">
-            {["Inicio", "Nosotros", "Actividades", "Rutinas", "Membresías"].map((l) => (
+            {["Inicio", "Nosotros", "Actividades", "Membresías", "Convenios"].map((l) => (
               <li key={l}>
                 <a
                   href={`#${l.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}

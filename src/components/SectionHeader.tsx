@@ -10,6 +10,8 @@ interface SectionHeaderProps {
    */
   accent?: string;
   description?: string;
+  /** Centrada se usa en una o dos secciones, para quebrar el eje izquierdo dominante. */
+  align?: "left" | "center";
   className?: string;
 }
 
@@ -28,25 +30,39 @@ const SectionHeader = ({
   title,
   accent,
   description,
+  align = "left",
   className = "",
-}: SectionHeaderProps) => (
-  <Reveal className={className}>
-    <div className="flex items-center gap-5 mb-6">
-      <span className="section-label text-primary shrink-0">{label}</span>
-      <span className="flex-1 h-px bg-border" />
-    </div>
+}: SectionHeaderProps) => {
+  const centered = align === "center";
 
-    <h2 className="font-display text-[2.25rem] uppercase leading-[0.95] sm:text-5xl lg:text-[3.5rem]">
-      {title}
-      {accent && <> <span className="text-primary">{accent}</span></>}
-    </h2>
+  return (
+    <Reveal className={className}>
+      <div className={`flex items-center gap-5 mb-6 ${centered ? "justify-center" : ""}`}>
+        {centered && <span className="h-px w-12 bg-border" />}
+        <span className="section-label text-primary shrink-0">{label}</span>
+        <span className={`h-px bg-border ${centered ? "w-12" : "flex-1"}`} />
+      </div>
 
-    {description && (
-      <p className="font-body text-[0.9375rem] text-muted-foreground mt-6 max-w-lg leading-relaxed">
-        {description}
-      </p>
-    )}
-  </Reveal>
-);
+      <h2
+        className={`font-display text-[2.25rem] uppercase leading-[0.95] sm:text-5xl lg:text-[3.5rem] ${
+          centered ? "text-center" : ""
+        }`}
+      >
+        {title}
+        {accent && <> <span className="text-primary">{accent}</span></>}
+      </h2>
+
+      {description && (
+        <p
+          className={`font-body text-[0.9375rem] text-muted-foreground mt-6 max-w-lg leading-relaxed ${
+            centered ? "mx-auto text-center" : ""
+          }`}
+        >
+          {description}
+        </p>
+      )}
+    </Reveal>
+  );
+};
 
 export default SectionHeader;

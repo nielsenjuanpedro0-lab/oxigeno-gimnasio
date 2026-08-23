@@ -35,12 +35,18 @@ const GallerySection = () => {
   return (
     <section id="instalaciones" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
-        <SectionHeader label="Instalaciones" title="NUESTRO ESPACIO" />
+        <SectionHeader label="Instalaciones" title="NUESTRO ESPACIO" align="center" />
+      </div>
 
-        <Reveal className="mt-16">
-          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">
-            {images.map((img) => (
-              <button
+      {/*
+        El mosaico sale del contenedor y llega a los bordes de la pantalla. Es el único
+        bloque de la página que lo hace, y ese contraste es justamente lo que evita que
+        todas las secciones se lean iguales.
+      */}
+      <Reveal className="mt-14 lg:mt-16">
+        <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-4 lg:gap-2">
+          {images.map((img) => (
+            <button
                 key={img.alt}
                 type="button"
                 onClick={() => setLightbox(img)}
@@ -56,11 +62,10 @@ const GallerySection = () => {
                 <span className="section-label absolute bottom-3 left-3 text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
                   {img.alt}
                 </span>
-              </button>
-            ))}
-          </div>
-        </Reveal>
-      </div>
+            </button>
+          ))}
+        </div>
+      </Reveal>
 
       <AnimatePresence>
         {lightbox && (

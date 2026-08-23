@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Actividades", href: "#actividades" },
   { label: "Horarios", href: "#horarios" },
   { label: "Membresías", href: "#membresias" },
+  { label: "Convenios", href: "#convenios" },
   { label: "Contacto", href: "#contacto" },
 ];
 

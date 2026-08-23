@@ -1,4 +1,3 @@
-import SectionHeader from "./SectionHeader";
 import Reveal from "./Reveal";
 
 const schedule = [
@@ -8,47 +7,37 @@ const schedule = [
 ];
 
 /**
- * Horarios como tabla real.
+ * Horarios como banda compacta.
  *
- * Antes eran tres tarjetas apiladas. Tres filas de dos columnas con la misma
- * estructura son una tabla, y como tabla se comparan de un vistazo.
+ * Antes ocupaba una sección entera con cabecera grande, igual que todas las demás.
+ * Tres pares de dato no justifican esa altura: bajarla a una banda de una fila le da
+ * a la página un cambio de respiración entre dos secciones altas, y los tres horarios
+ * quedan comparables de un vistazo.
  */
 const ScheduleSection = () => (
-  <section id="horarios" className="py-24 lg:py-36">
-    <div className="container">
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-        <SectionHeader
-          label="Horarios"
-          title="HORARIO CORRIDO"
-          description="Vení a entrenar en el horario que mejor te quede."
-          className="lg:col-span-5"
-        />
+  <section id="horarios" className="border-y border-border bg-surface-2">
+    <div className="container py-12 lg:py-16">
+      <Reveal>
+        <div className="grid gap-8 md:grid-cols-4 md:items-baseline md:gap-6">
+          <p className="section-label text-primary">Horarios</p>
 
-        <Reveal className="lg:col-span-7">
-          <table className="w-full border-collapse">
-            <caption className="sr-only">Horarios de atención del gimnasio</caption>
-            <tbody>
-              {schedule.map((item) => (
-                <tr key={item.day} className="border-t border-border">
-                  <th
-                    scope="row"
-                    className="py-6 text-left font-display text-xl uppercase sm:text-2xl"
-                  >
-                    {item.day}
-                  </th>
-                  <td
-                    className={`py-6 text-right data text-base sm:text-lg ${
-                      item.open ? "text-primary" : "text-muted-foreground"
-                    }`}
-                  >
-                    {item.hours}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Reveal>
-      </div>
+          {schedule.map((item) => (
+            <div
+              key={item.day}
+              className="flex items-baseline justify-between gap-4 border-t border-border pt-4 md:block md:border-t-0 md:pt-0"
+            >
+              <span className="section-label text-muted-foreground">{item.day}</span>
+              <span
+                className={`data font-display block text-xl md:mt-2 md:text-2xl ${
+                  item.open ? "text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {item.hours}
+              </span>
+            </div>
+          ))}
+        </div>
+      </Reveal>
     </div>
   </section>
 );

@@ -12,10 +12,6 @@ const features = [
     desc: "Un espacio donde la motivación es colectiva",
   },
   {
-    title: "Showroom Hype Fitness",
-    desc: "La zona más intensa de entrenamiento",
-  },
-  {
     title: "Necochea, Av. 58 n° 3752",
     desc: "Tu gimnasio premium en la costa argentina",
   },
@@ -26,8 +22,8 @@ const AboutSection = () => (
     <div className="container">
       <SectionHeader
         label="Por qué Oxígeno"
-        title="SOMOS MÁS QUE UN GIMNASIO"
-        description="En Oxígeno el entrenamiento va más allá del cuerpo. Armamos un ambiente donde la energía, la comunidad y los resultados se encuentran."
+        title="EL ENTRENAMIENTO VA MÁS ALLÁ DEL CUERPO"
+        description="Armamos un ambiente donde la energía, la comunidad y los resultados se encuentran."
         className="max-w-2xl"
       />
 

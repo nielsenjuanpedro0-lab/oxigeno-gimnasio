@@ -19,6 +19,7 @@ const sections = [
   "horarios",
   "instalaciones",
   "membresias",
+  "convenios",
   "rutinas",
   "contacto",
 ];
