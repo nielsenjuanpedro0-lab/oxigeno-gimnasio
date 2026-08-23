@@ -2,7 +2,7 @@ import { Flame, Instagram, MessageCircle } from "lucide-react";
 
 const Footer = () => (
   <footer id="contacto" className="py-16 lg:py-24 border-t border-border">
-    <div className="container mx-auto px-4 lg:px-8">
+    <div className="container">
       <div className="grid md:grid-cols-3 gap-12 lg:gap-20">
         {/* Logo & social */}
         <div>
@@ -20,7 +20,8 @@ const Footer = () => (
               href="https://www.instagram.com/oxigeno.fitnessgym_"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+              aria-label="Instagram de Gimnasio Oxígeno"
+              className="w-10 h-10 border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
             >
               <Instagram className="w-5 h-5" />
             </a>
@@ -28,7 +29,8 @@ const Footer = () => (
               href="https://wa.me/5492262664679"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-green-500 hover:border-green-500/50 transition-colors"
+              aria-label="WhatsApp de Gimnasio Oxígeno"
+              className="w-10 h-10 border border-border flex items-center justify-center text-muted-foreground hover:text-green-500 hover:border-green-500/50 transition-colors"
             >
               <MessageCircle className="w-5 h-5" />
             </a>
@@ -56,7 +58,7 @@ const Footer = () => (
         <div>
           <h4 className="font-display text-xl tracking-wider mb-4">CONTACTO</h4>
           <div className="font-body text-sm text-muted-foreground space-y-2">
-            <p>Av 58 n° 3752</p>
+            <p>Av. 58 n° 3752</p>
             <p>Necochea, Argentina 7630</p>
             <a
               href="https://wa.me/5492262664679"
@@ -64,7 +66,7 @@ const Footer = () => (
               rel="noopener noreferrer"
               className="block hover:text-primary transition-colors"
             >
-              WhatsApp: +54 9 2262 000000
+              WhatsApp: +54 9 2262 66-4679
             </a>
             <a
               href="https://www.instagram.com/oxigeno.fitnessgym_"

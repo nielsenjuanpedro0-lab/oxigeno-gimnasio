@@ -48,7 +48,7 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="glass-card rounded-xl p-8 w-full max-w-md relative"
+            className="bg-surface-2 border border-border rounded-sm p-8 w-full max-w-md relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">

@@ -1,131 +1,203 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, Star, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { usePayment } from "@/contexts/PaymentContext";
+import SectionHeader from "./SectionHeader";
+import Reveal from "./Reveal";
 
 const plans = [
   {
     name: "CLASE",
     price: "20.000",
     priceNum: 20000,
+    unit: "por clase",
     featured: false,
-    features: [
-      "1 clase individual",
-      "Acceso por el día",
-      "Ideal para probar",
-    ],
-  },
-  {
-    name: "BLACK",
-    price: "70.000",
-    priceNum: 70000,
-    featured: true,
-    badge: "MÁS POPULAR",
-    features: [
-      "Acceso libre diario",
-      "Máxima flexibilidad",
-      "Entrená cuando quieras",
-      "Sin restricciones de horario",
-    ],
+    acceso: "1 clase individual",
+    vigencia: "Por el día",
+    idealPara: "Probar el gimnasio",
   },
   {
     name: "SILVER",
     price: "60.000",
     priceNum: 60000,
+    unit: "por mes",
     featured: false,
-    features: [
-      "Acceso 3 veces por semana",
-      "Rutina organizada y constante",
-      "Ideal para mantener frecuencia",
-    ],
+    acceso: "3 veces por semana",
+    vigencia: "Mensual",
+    idealPara: "Mantener frecuencia",
   },
-];
+  {
+    name: "BLACK",
+    price: "70.000",
+    priceNum: 70000,
+    unit: "por mes",
+    featured: true,
+    acceso: "Libre, sin restricción horaria",
+    vigencia: "Mensual",
+    idealPara: "Máxima flexibilidad",
+  },
+] as const;
 
+const rows = [
+  { label: "Acceso", key: "acceso" },
+  { label: "Vigencia", key: "vigencia" },
+  { label: "Ideal para", key: "idealPara" },
+] as const;
+
+const WHATSAPP_URL = "https://wa.me/5492262664679";
+
+/**
+ * Membresías como tabla comparativa.
+ *
+ * Antes eran tres tarjetas flotantes, cada una con su propia lista de beneficios en
+ * distinto orden — imposible comparar dos planes sin releer las tres. Con una fila por
+ * atributo, la comparación es horizontal y directa.
+ *
+ * En mobile la tabla colapsa a bloques apilados: una tabla de cuatro columnas no entra
+ * en 360px sin scroll horizontal.
+ */
 const MembershipSection = () => {
   const { openPayment } = usePayment();
 
+  const buy = (plan: (typeof plans)[number]) =>
+    openPayment({ name: plan.name, price: plan.price, priceNum: plan.priceNum });
+
   return (
-    <section id="membresias" className="py-24 lg:py-32">
-      <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="section-label mb-4">MEMBRESÍAS</p>
-          <h2 className="font-display text-5xl lg:text-6xl tracking-tight">
-            ELEGÍ TU <span className="text-gradient-amber">PLAN</span>
-          </h2>
-        </motion.div>
+    <section id="membresias" className="bg-surface-1 py-20 lg:py-28">
+      <div className="container">
+        <SectionHeader
+          index="05"
+          label="Membresías"
+          title="ELEGÍ"
+          titleSecondLine="TU PLAN"
+        />
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
-          {plans.map((plan, i) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              className={`relative rounded-2xl p-8 flex flex-col ${
-                plan.featured
-                  ? "glass-card border-primary/50 shadow-[0_0_40px_-10px_hsl(37_91%_55%/0.3)] scale-105"
-                  : "glass-card"
-              }`}
-            >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground font-body text-xs font-bold px-4 py-1 rounded-full flex items-center gap-1">
-                  <Star className="w-3 h-3" /> {plan.badge}
-                </div>
-              )}
-
-              <h3 className="font-display text-3xl tracking-wider mb-2">{plan.name}</h3>
-              <div className="mb-6">
-                <span className="font-display text-5xl text-primary">${plan.price}</span>
-                <span className="font-body text-sm text-muted-foreground">
-                  {plan.name === "CLASE" ? "/clase" : "/mes"}
-                </span>
-              </div>
-
-              <ul className="space-y-3 mb-8 flex-1">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 font-body text-sm text-muted-foreground">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    {f}
-                  </li>
+        {/* Desktop: comparación horizontal */}
+        <Reveal className="mt-14 hidden lg:block">
+          <table className="w-full border-collapse text-left">
+            <caption className="sr-only">
+              Comparación de planes de membresía del Gimnasio Oxígeno
+            </caption>
+            <thead>
+              <tr>
+                <td className="w-40" />
+                {plans.map((plan) => (
+                  <th
+                    key={plan.name}
+                    scope="col"
+                    className={`border-t-2 px-6 pb-6 pt-5 align-top ${
+                      plan.featured ? "border-primary" : "border-foreground/80"
+                    }`}
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="font-display text-3xl font-normal tracking-wide">
+                        {plan.name}
+                      </span>
+                      {plan.featured && (
+                        <span className="section-label text-primary">Más elegido</span>
+                      )}
+                    </div>
+                    <p className="mt-4">
+                      <span className="data text-3xl text-primary">${plan.price}</span>
+                      <span className="font-body text-sm text-muted-foreground ml-2">
+                        {plan.unit}
+                      </span>
+                    </p>
+                  </th>
                 ))}
-              </ul>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.key} className="border-t border-border">
+                  <th scope="row" className="section-label py-5 pr-6 align-top">
+                    {row.label}
+                  </th>
+                  {plans.map((plan) => (
+                    <td
+                      key={plan.name}
+                      className="px-6 py-5 align-top font-body text-sm text-foreground/90"
+                    >
+                      {plan[row.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              <tr className="border-t border-border">
+                <td />
+                {plans.map((plan) => (
+                  <td key={plan.name} className="px-6 pt-6 align-top">
+                    <button
+                      onClick={() => buy(plan)}
+                      className={`${
+                        plan.featured ? "btn-primary" : "btn-secondary"
+                      } btn-md w-full`}
+                    >
+                      Elegir {plan.name}
+                    </button>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </Reveal>
 
-              <button
-                onClick={() => openPayment(plan)}
-                className={`text-center font-body font-semibold py-3 rounded-full transition-all duration-300 cursor-pointer ${
-                  plan.featured
-                    ? "bg-accent text-accent-foreground hover:shadow-[0_0_25px_hsl(355_72%_56%/0.4)]"
-                    : "border border-border hover:border-primary/50 text-foreground hover:bg-secondary"
+        {/* Mobile: un bloque por plan */}
+        <div className="mt-12 space-y-10 lg:hidden">
+          {plans.map((plan, i) => (
+            <Reveal key={plan.name} delay={i * 0.06}>
+              <div
+                className={`border-t-2 pt-5 ${
+                  plan.featured ? "border-primary" : "border-foreground/80"
                 }`}
               >
-                Elegir plan
-              </button>
-            </motion.div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-display text-3xl tracking-wide">{plan.name}</h3>
+                  {plan.featured && (
+                    <span className="section-label text-primary">Más elegido</span>
+                  )}
+                </div>
+
+                <p className="mt-3">
+                  <span className="data text-3xl text-primary">${plan.price}</span>
+                  <span className="font-body text-sm text-muted-foreground ml-2">
+                    {plan.unit}
+                  </span>
+                </p>
+
+                <dl className="mt-5">
+                  {rows.map((row) => (
+                    <div key={row.key} className="flex gap-4 border-t border-border py-3">
+                      <dt className="section-label w-24 shrink-0 pt-0.5">{row.label}</dt>
+                      <dd className="font-body text-sm text-foreground/90">
+                        {plan[row.key]}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <button
+                  onClick={() => buy(plan)}
+                  className={`${
+                    plan.featured ? "btn-primary" : "btn-secondary"
+                  } btn-md mt-5 w-full`}
+                >
+                  Elegir {plan.name}
+                </button>
+              </div>
+            </Reveal>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
+        <Reveal className="mt-14">
           <a
-            href="https://wa.me/5492262664679"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-body text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            <MessageCircle className="w-5 h-5 text-green-500" />
-            ¿Tenés dudas? Contactanos por WhatsApp
+            <MessageCircle className="w-4 h-4" aria-hidden="true" />
+            <span className="link-underline">¿Tenés dudas? Escribinos por WhatsApp</span>
           </a>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

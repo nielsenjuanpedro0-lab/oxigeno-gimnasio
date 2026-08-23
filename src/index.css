@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,35 +6,41 @@
 
 @layer base {
   :root {
+    /* Escala de superficies opacas. La profundidad viene del fondo, no del blur. */
     --background: 0 0% 4%;
+    --surface-1: 0 0% 6%;
+    --surface-2: 0 0% 8%;
     --foreground: 0 0% 100%;
 
     --card: 0 0% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 8%;
+    --popover: 0 0% 6%;
     --popover-foreground: 0 0% 100%;
 
+    /* Ámbar: único color de marca. Poco uso, mucho peso. */
     --primary: 37 91% 55%;
     --primary-foreground: 0 0% 4%;
 
-    --secondary: 0 0% 10%;
+    --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 54%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 58%;
 
+    /* Rojo: solo señal — cupos, urgencia, error. Nunca decorativo. */
+    --signal: 355 72% 56%;
     --accent: 355 72% 56%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
     --ring: 37 91% 55%;
 
-    --radius: 0.5rem;
+    --radius: 2px;
 
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 100%;
@@ -42,7 +48,7 @@
     --sidebar-primary-foreground: 0 0% 4%;
     --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 16%;
+    --sidebar-border: 0 0% 14%;
     --sidebar-ring: 37 91% 55%;
   }
 }
@@ -54,36 +60,108 @@
 
   html {
     scroll-behavior: smooth;
+    /* La navbar fija mide 4rem/5rem: sin esto los anchors quedan tapados. */
+    scroll-padding-top: 5rem;
   }
 
   body {
-    @apply bg-background text-foreground font-body;
-    cursor: crosshair;
+    @apply bg-background text-foreground font-body antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display font-normal;
+  }
+
+  /* Todo dato numérico alinea en columna. */
+  .font-mono, code, kbd, samp {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * Botones. Rectangulares, sólidos, sin glow.
+   * El primario es ámbar sobre negro: 8.9:1 de contraste.
+   */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-body font-semibold
+           uppercase tracking-[0.08em] leading-none rounded-[2px]
+           transition-colors duration-200
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+           focus-visible:ring-offset-2 focus-visible:ring-offset-background
+           disabled:opacity-40 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-primary/85;
+  }
+
+  .btn-secondary {
+    @apply btn border border-foreground/25 text-foreground
+           hover:border-foreground/60 hover:bg-foreground/5;
+  }
+
+  .btn-signal {
+    @apply btn bg-[hsl(var(--signal))] text-white hover:bg-[hsl(var(--signal)/0.85)];
+  }
+
+  .btn-lg {
+    @apply text-sm px-8 h-14;
+  }
+
+  .btn-md {
+    @apply text-xs px-6 h-11;
+  }
+
+  .btn-sm {
+    @apply text-[11px] px-4 h-9;
+  }
+
+  /* Link de texto: subrayado desplazado, sin cambio de color al pasar. */
+  .link-underline {
+    @apply underline decoration-1 underline-offset-4 decoration-foreground/30
+           hover:decoration-foreground transition-colors duration-200;
   }
 }
 
 @layer utilities {
-  .text-gradient-amber {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-400;
-  }
-
-  .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
-  }
-
-  .glass-card-hover {
-    @apply glass-card transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)];
-  }
-
+  /* Eyebrow de sección: mono, no ámbar. El color lo carga el número. */
   .section-label {
-    @apply text-xs font-body uppercase tracking-[0.3em] text-primary font-medium;
+    @apply font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground;
+  }
+
+  /* Dato tabular: horarios, precios, días. */
+  .data {
+    @apply font-mono tabular-nums;
+  }
+
+  .rule {
+    @apply border-t border-border;
   }
 
   .grain-overlay {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -126,7 +126,7 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 10, opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-card rounded-2xl w-full max-w-md relative max-h-[90vh] overflow-y-auto border border-border/40"
+            className="bg-surface-2 rounded-sm w-full max-w-md relative max-h-[90vh] overflow-y-auto border border-border"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}

@@ -16,7 +16,7 @@ const IndexContent = () => {
   const { selectedPlan, closePayment } = usePayment();
 
   return (
-    <main>
+    <main className="pb-20 lg:pb-0">
       <Navbar />
       <HeroSection />
       <AboutSection />

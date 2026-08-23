@@ -1,34 +1,35 @@
-import { motion } from "framer-motion";
+import Reveal from "./Reveal";
 
+const WHATSAPP_URL = "https://wa.me/5492262664679";
+
+/**
+ * Banner de promoción.
+ *
+ * No está montado en ninguna página: la promo de dos semanas gratis no está
+ * confirmada como vigente. Se mantiene actualizado al sistema visual para que se
+ * pueda activar sin retoques si el gimnasio la vuelve a ofrecer.
+ */
 const CTABanner = () => (
-  <section className="py-24 lg:py-32 relative overflow-hidden">
-    {/* Gradient bg */}
-    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/10 to-accent/10" />
-    <div className="absolute inset-0 grain-overlay" />
-
-    <div className="relative container mx-auto px-4 lg:px-8 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="font-display text-5xl lg:text-7xl tracking-tight mb-4">
+  <section className="border-y border-border bg-surface-2 py-20 lg:py-28">
+    <div className="container">
+      <Reveal>
+        <h2 className="font-display text-[2.75rem] leading-[0.9] sm:text-6xl lg:text-7xl">
           TU TRANSFORMACIÓN
           <br />
-          <span className="text-gradient-amber">COMIENZA HOY</span>
+          <span className="text-muted-foreground">COMIENZA HOY</span>
         </h2>
-        <p className="font-body text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-          Primeras 2 semanas de prueba sin costo. Sin compromisos, sin excusas.
+        <p className="font-body text-lg text-muted-foreground mt-6 max-w-md leading-relaxed">
+          Primeras 2 semanas de prueba sin costo. Sin compromisos.
         </p>
         <a
-          href="https://wa.me/5492262664679"
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-accent hover:bg-accent/90 text-accent-foreground font-body font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_0_40px_hsl(355_72%_56%/0.4)] animate-pulse-glow"
+          className="btn-primary btn-lg mt-9"
         >
-          EMPEZÁ GRATIS →
+          Empezar gratis
         </a>
-      </motion.div>
+      </Reveal>
     </div>
   </section>
 );

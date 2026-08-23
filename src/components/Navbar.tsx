@@ -34,10 +34,10 @@ const Navbar = () => {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "bg-background/95 backdrop-blur-md border-b border-border/50" : "bg-transparent"
+          scrolled ? "bg-background/90 backdrop-blur-md border-b border-border" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-20">
+        <div className="container flex items-center justify-between h-16 lg:h-20">
           <a href="#inicio" className="flex items-center">
             <img src={logo} alt="Oxígeno Gym" className="h-10 lg:h-14 w-auto" />
           </a>
@@ -47,7 +47,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-body uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors duration-300"
+                className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -75,7 +75,7 @@ const Navbar = () => {
             )}
             <button
               onClick={() => openPayment(DEFAULT_PLAN)}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-body text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-[0_0_20px_hsl(355_72%_56%/0.4)]"
+              className="btn-primary btn-sm"
             >
               Únete ahora
             </button>
@@ -83,6 +83,7 @@ const Navbar = () => {
 
           <button
             className="lg:hidden text-foreground"
+            aria-label="Abrir menú"
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="w-6 h-6" />
@@ -101,6 +102,7 @@ const Navbar = () => {
           >
             <button
               className="absolute top-5 right-5 text-foreground"
+              aria-label="Cerrar menú"
               onClick={() => setMobileOpen(false)}
             >
               <X className="w-7 h-7" />
@@ -121,7 +123,7 @@ const Navbar = () => {
               ))}
               <button
                 onClick={() => { openPayment(DEFAULT_PLAN); setMobileOpen(false); }}
-                className="mt-4 bg-accent text-accent-foreground font-body font-semibold px-8 py-3 rounded-full"
+                className="btn-primary btn-md mt-4"
               >
                 Únete ahora
               </button>

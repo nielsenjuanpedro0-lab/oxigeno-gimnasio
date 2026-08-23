@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Expand } from "lucide-react";
+import { X } from "lucide-react";
 import gym1 from "@/assets/gym-1.jpg";
 import gym2 from "@/assets/gym-2.jpg";
 import gym3 from "@/assets/gym-3.jpg";
 import gym4 from "@/assets/gym-4.jpg";
 import gym5 from "@/assets/gym-5.jpg";
+import SectionHeader from "./SectionHeader";
+import Reveal from "./Reveal";
 
 const images = [
   { src: gym1, alt: "Zona de mancuernas", span: "col-span-2 row-span-2" },
@@ -16,48 +18,53 @@ const images = [
 ];
 
 const GallerySection = () => {
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+
+  // Escape cierra el lightbox: antes solo se cerraba haciendo clic en el fondo.
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightbox(null);
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox]);
 
   return (
-    <section id="instalaciones" className="py-24 lg:py-32 bg-secondary/30">
-      <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="section-label mb-4">INSTALACIONES</p>
-          <h2 className="font-display text-5xl lg:text-6xl tracking-tight">
-            NUESTRO <span className="text-gradient-amber">ESPACIO</span>
-          </h2>
-        </motion.div>
+    <section id="instalaciones" className="bg-surface-1 py-20 lg:py-28">
+      <div className="container">
+        <SectionHeader
+          index="04"
+          label="Instalaciones"
+          title="NUESTRO"
+          titleSecondLine="ESPACIO"
+        />
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-          {images.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className={`relative rounded-xl overflow-hidden group cursor-pointer ${img.span}`}
-              onClick={() => setLightbox(img.src)}
-            >
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="w-full h-full object-cover min-h-[200px] group-hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/50 transition-colors duration-300 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2 font-body text-sm text-foreground">
-                  <Expand className="w-5 h-5" /> VER MÁS
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <Reveal className="mt-14">
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">
+            {images.map((img) => (
+              <button
+                key={img.alt}
+                type="button"
+                onClick={() => setLightbox(img)}
+                aria-label={`Ampliar imagen: ${img.alt}`}
+                className={`group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1 ${img.span}`}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="h-full min-h-[160px] w-full object-cover transition-opacity duration-300 group-hover:opacity-70 sm:min-h-[200px]"
+                  loading="lazy"
+                />
+                <span className="section-label absolute bottom-3 left-3 text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  {img.alt}
+                </span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
       </div>
 
       <AnimatePresence>
@@ -66,19 +73,24 @@ const GallerySection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-background/95 backdrop-blur-xl flex items-center justify-center p-4"
+            transition={{ duration: 0.2 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={lightbox.alt}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-background/95 p-4 backdrop-blur-md"
             onClick={() => setLightbox(null)}
           >
-            <button className="absolute top-6 right-6 text-foreground hover:text-primary">
-              <X className="w-8 h-8" />
+            <button
+              type="button"
+              aria-label="Cerrar imagen"
+              className="absolute right-5 top-5 text-foreground hover:text-primary transition-colors"
+            >
+              <X className="h-7 w-7" />
             </button>
-            <motion.img
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              src={lightbox}
-              alt="Gallery"
-              className="max-w-full max-h-[85vh] rounded-xl object-contain"
+            <img
+              src={lightbox.src}
+              alt={lightbox.alt}
+              className="max-h-[85vh] max-w-full object-contain"
             />
           </motion.div>
         )}
