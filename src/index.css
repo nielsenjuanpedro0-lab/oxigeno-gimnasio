@@ -1,3 +1,25 @@
+/*
+ * Tipografías propias, servidas desde el mismo origen y precargadas desde el HTML.
+ * Con la precarga llegan antes del primer pintado, así que swap no llega a hacer
+ * ningún reemplazo y el layout no se mueve.
+ */
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/fonts/inter-tight-variable.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

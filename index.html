@@ -11,22 +11,32 @@
     />
     <link rel="canonical" href="https://gimnasiooxigeno.com.ar/" />
 
-    <!-- Los tipos se traen de un host externo: sin preconnect el navegador espera al
-         DNS y al TLS recién cuando encuentra el @import del CSS. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!--
-      display=optional en lugar de swap: con swap el navegador pinta primero con la
-      tipografía de reserva y después reemplaza, y ese reemplazo recoloca toda la página.
-      Con optional usa la fuente web solo si llegó a tiempo y, si no, se queda con la
-      reserva sin volver a maquetar. Es la única variante que garantiza cero salto.
+      Tipografías propias y precargadas.
+
+      Servirlas desde el mismo origen y precargarlas hace que lleguen antes del primer
+      pintado: no hay reemplazo de fuente, así que no hay salto de layout, y el
+      visitante ve la tipografía de la marca desde el primer instante.
+
+      Antes se pedían a fonts.googleapis.com con display=optional. Eso resolvía el
+      salto, pero a costa de que en una primera visita algo lenta la página se
+      renderizara entera con la tipografía de reserva — y en este diseño la tipografía
+      es la marca.
     -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter+Tight:wght@300..700&display=optional"
+      rel="preload"
+      href="/fonts/archivo-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
-
-    <meta name="theme-color" content="#0d0d0d" />
+    <link
+      rel="preload"
+      href="/fonts/inter-tight-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta name="author" content="Gimnasio Oxígeno" />
 
     <!-- Señales geográficas para búsqueda local. -->

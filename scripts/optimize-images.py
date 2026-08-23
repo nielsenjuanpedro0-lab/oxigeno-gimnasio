@@ -12,7 +12,7 @@ calidad conviene partir de ellos y no de un WebP ya comprimido.
 
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 ASSETS = Path(__file__).resolve().parent.parent / "src" / "assets"
 
@@ -34,6 +34,20 @@ QUALITY = 78
 CROP_RATIO = {"gym-floor": 4 / 3}
 
 
+def gradar(im: Image.Image) -> Image.Image:
+    """Gradación común a todas las fotos.
+
+    Las fotos del gimnasio son planos de sala con luz pareja y poco contraste. Sin un
+    tratamiento común se leen como fotos sueltas de distintos días; con contraste algo
+    más alto y saturación algo más baja pasan a leerse como un set dirigido, que es la
+    diferencia entre una galería y un álbum.
+    """
+    im = ImageEnhance.Contrast(im).enhance(1.12)
+    im = ImageEnhance.Color(im).enhance(0.82)
+    im = ImageEnhance.Brightness(im).enhance(0.96)
+    return im
+
+
 def emit(src: Path, width: int, suffix: str) -> None:
     im = Image.open(src).convert("RGB")
 
@@ -45,6 +59,8 @@ def emit(src: Path, width: int, suffix: str) -> None:
 
     if im.width > width:
         im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+
+    im = gradar(im)
     out = src.with_name(f"{src.stem}{suffix}.webp")
     im.save(out, "WEBP", quality=QUALITY, method=6)
     print(f"  {out.name:28} {im.width:>5}x{im.height:<5} {out.stat().st_size / 1024:>7.0f} KB")

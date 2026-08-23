@@ -11,9 +11,7 @@ const plans = [
     priceNum: 20000,
     unit: "por clase",
     featured: false,
-    acceso: "1 clase individual",
-    vigencia: "Por el día",
-    idealPara: "Probar el gimnasio",
+    incluye: ["1 clase individual", "Acceso por el día", "Ideal para probar"],
   },
   {
     name: "SILVER",
@@ -22,9 +20,11 @@ const plans = [
     priceNum: 60000,
     unit: "por mes",
     featured: false,
-    acceso: "3 veces por semana",
-    vigencia: "Mensual",
-    idealPara: "Mantener frecuencia",
+    incluye: [
+      "Acceso 3 veces por semana",
+      "Rutina organizada y constante",
+      "Ideal para mantener frecuencia",
+    ],
   },
   {
     name: "BLACK",
@@ -33,170 +33,108 @@ const plans = [
     priceNum: 70000,
     unit: "por mes",
     featured: true,
-    acceso: "Libre, sin restricción horaria",
-    vigencia: "Mensual",
-    idealPara: "Máxima flexibilidad",
+    incluye: [
+      "Acceso libre diario",
+      "Sin restricciones de horario",
+      "Entrená cuando quieras",
+      "Máxima flexibilidad",
+    ],
   },
-] as const;
-
-const rows = [
-  { label: "Acceso", key: "acceso" },
-  { label: "Vigencia", key: "vigencia" },
-  { label: "Ideal para", key: "idealPara" },
 ] as const;
 
 const WHATSAPP_URL = "https://wa.me/5492262664679";
 
 /**
- * Membresías como tabla comparativa.
+ * Planes en bloques.
  *
- * Antes eran tres tarjetas flotantes, cada una con su propia lista de beneficios en
- * distinto orden — imposible comparar dos planes sin releer las tres. Con una fila por
- * atributo, la comparación es horizontal y directa.
+ * La versión anterior era una tabla comparativa. La idea era poder comparar los planes
+ * de un vistazo, pero con solo tres atributos la tabla quedaba casi toda vacía y se
+ * leía como planilla de especificaciones: dos o tres palabras por celda en columnas de
+ * 380 px. Un bloque por plan sostiene mejor el contenido y vende, que es lo que esta
+ * sección tiene que hacer.
  *
- * En mobile la tabla colapsa a bloques apilados: una tabla de cuatro columnas no entra
- * en 360px sin scroll horizontal.
+ * El plan destacado se distingue por superficie y borde, no por escala: el truco de
+ * agrandarlo un 5% desbordaba en mobile y se nota como truco.
  */
 const MembershipSection = () => {
   const { openPayment } = usePayment();
-
-  const buy = (plan: (typeof plans)[number]) =>
-    openPayment({ name: plan.name, price: plan.price, priceNum: plan.priceNum });
 
   return (
     <section id="membresias" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
         <SectionHeader label="Membresías" title="ELEGÍ TU" accent="PLAN" />
 
-        {/* Desktop: comparación horizontal */}
-        <Reveal className="mt-16 hidden lg:block">
-          <table className="w-full border-collapse text-left">
-            <caption className="sr-only">
-              Comparación de planes de membresía del Gimnasio Oxígeno
-            </caption>
-            <thead>
-              <tr>
-                <td className="w-40" />
-                {plans.map((plan) => (
-                  <th
-                    key={plan.name}
-                    scope="col"
-                    className={`border-t px-6 pb-7 pt-6 align-top ${
-                      plan.featured ? "border-primary" : "border-border"
-                    }`}
-                  >
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-display text-2xl uppercase leading-none">
-                        {plan.name}
-                      </span>
-                      {plan.featured && (
-                        <span className="section-label text-primary">Más elegido</span>
-                      )}
-                    </div>
-                    <p className="mt-5 flex items-baseline gap-2">
-                      <span className="data font-display text-[2.25rem] text-primary leading-none">
-                        ${plan.price}
-                      </span>
-                      <span className="font-body text-[0.8125rem] text-muted-foreground">
-                        {plan.unit}
-                      </span>
-                    </p>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.key} className="border-t border-border">
-                  <th scope="row" className="section-label text-muted-foreground py-5 pr-6 align-top">
-                    {row.label}
-                  </th>
-                  {plans.map((plan) => (
-                    <td
-                      key={plan.name}
-                      className="px-6 py-5 align-top font-body text-sm text-foreground/90"
-                    >
-                      {plan[row.key]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-              <tr className="border-t border-border">
-                <td />
-                {plans.map((plan) => (
-                  <td key={plan.name} className="px-6 pt-6 align-top">
-                    <button
-                      onClick={() => buy(plan)}
-                      className={`${
-                        plan.featured ? "btn-primary" : "btn-secondary"
-                      } btn-md w-full`}
-                    >
-                      Elegir {plan.label}
-                    </button>
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </Reveal>
-
-        {/* Mobile: un bloque por plan */}
-        <div className="mt-12 space-y-10 lg:hidden">
+        <div className="mt-16 grid gap-5 lg:mt-20 lg:grid-cols-3 lg:gap-6">
           {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.06}>
-              <div
-                className={`border-t pt-6 ${
-                  plan.featured ? "border-primary" : "border-border"
+            <Reveal key={plan.name} delay={i * 0.08} className="h-full">
+              <article
+                className={`flex h-full flex-col border-t-2 p-8 transition-colors duration-500 lg:p-10 ${
+                  plan.featured
+                    ? "border-primary bg-surface-2"
+                    : "border-border bg-background/40 hover:border-foreground/30"
                 }`}
               >
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-display text-2xl uppercase leading-none">{plan.name}</h3>
+                  <h3 className="font-display text-2xl uppercase leading-none">
+                    {plan.name}
+                  </h3>
                   {plan.featured && (
                     <span className="section-label text-primary">Más elegido</span>
                   )}
                 </div>
 
-                <p className="mt-4 flex items-baseline gap-2">
-                  <span className="data font-display text-[2.25rem] text-primary leading-none">
+                <p className="mt-7 flex items-baseline gap-2.5">
+                  <span className="data font-display text-[3.25rem] leading-[0.85] text-primary">
                     ${plan.price}
                   </span>
-                  <span className="font-body text-[0.8125rem] text-muted-foreground">
+                  <span className="font-body text-sm text-muted-foreground">
                     {plan.unit}
                   </span>
                 </p>
 
-                <dl className="mt-5">
-                  {rows.map((row) => (
-                    <div key={row.key} className="flex gap-4 border-t border-border py-3">
-                      <dt className="section-label text-muted-foreground w-24 shrink-0 pt-0.5">{row.label}</dt>
-                      <dd className="font-body text-sm text-foreground/90">
-                        {plan[row.key]}
-                      </dd>
-                    </div>
+                {/*
+                  Lista separada por reglas finas en lugar de viñetas con tilde: el
+                  check verde en círculo es el recurso más repetido de las páginas de
+                  precios genéricas.
+                */}
+                <ul className="mt-9 flex-1 border-b border-border">
+                  {plan.incluye.map((item) => (
+                    <li
+                      key={item}
+                      className="border-t border-border py-3.5 font-body text-[0.9375rem] text-foreground/85"
+                    >
+                      {item}
+                    </li>
                   ))}
-                </dl>
+                </ul>
 
                 <button
-                  onClick={() => buy(plan)}
+                  onClick={() =>
+                    openPayment({
+                      name: plan.name,
+                      price: plan.price,
+                      priceNum: plan.priceNum,
+                    })
+                  }
                   className={`${
                     plan.featured ? "btn-primary" : "btn-secondary"
-                  } btn-md mt-5 w-full`}
+                  } btn-md mt-9 w-full`}
                 >
                   Elegir {plan.label}
                 </button>
-              </div>
+              </article>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="mt-14">
+        <Reveal className="mt-12">
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 font-body text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            <MessageCircle className="w-4 h-4" aria-hidden="true" />
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
             <span className="link-underline">¿Tenés dudas? Escribinos por WhatsApp</span>
           </a>
         </Reveal>
