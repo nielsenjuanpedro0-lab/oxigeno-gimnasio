@@ -47,8 +47,12 @@ const Picture = ({
       width={width}
       height={height}
       loading={priority ? "eager" : "lazy"}
-      // fetchPriority alta solo en la imagen del hero: es el Largest Contentful Paint.
-      fetchPriority={priority ? "high" : "auto"}
+      // Prioridad alta solo en la imagen del hero: es el Largest Contentful Paint.
+      //
+      // Va en minúsculas y por spread porque React 18 no reconoce `fetchPriority` en
+      // camelCase: lo deja pasar sin traducir y avisa por consola. React 19 sí lo
+      // acepta; hasta entonces, el nombre del atributo tal cual lo define el HTML.
+      {...({ fetchpriority: priority ? "high" : "auto" } as Record<string, string>)}
       decoding={priority ? "sync" : "async"}
       onLoad={() => setLoaded(true)}
       className={`${className} transition-opacity duration-700 ease-out ${

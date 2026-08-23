@@ -16,7 +16,8 @@
     "check:opacity": "node scripts/check-opacity.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:headings": "node scripts/check-headings.mjs",
-    "check:perf": "node scripts/check-perf.mjs"
+    "check:perf": "node scripts/check-perf.mjs",
+    "check:runtime": "node scripts/check-runtime.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
