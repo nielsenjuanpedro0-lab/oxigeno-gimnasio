@@ -1,0 +1,22 @@
+# Cabeceras para el sitio publicado.
+#
+# Igual que _redirects, vive en public/ para que Vite lo copie a dist/ y Netlify
+# lo lea cuando el sitio se sube arrastrando la carpeta.
+
+# Los nombres de los assets incluyen un hash del contenido: si el contenido
+# cambia, cambia el nombre. Por eso se pueden cachear indefinidamente sin riesgo
+# de que un visitante quede con una versión vieja.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# El HTML no se cachea: es el archivo que apunta a la versión vigente de los
+# assets, así que tiene que revalidarse en cada visita.
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

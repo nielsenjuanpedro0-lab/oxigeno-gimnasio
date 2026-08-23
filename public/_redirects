@@ -1,0 +1,13 @@
+# Reescritura de aplicación de página única.
+#
+# El sitio usa react-router: en el disco solo existe index.html. Sin esta regla,
+# cualquier URL que no sea la raíz —un enlace compartido a /membresias, por
+# ejemplo— devuelve el 404 de Netlify en vez de cargar la aplicación.
+#
+# El código 200 hace que Netlify sirva index.html sin redirigir, así la barra de
+# direcciones conserva la ruta original.
+#
+# Este archivo vive en public/ para que Vite lo copie a dist/. Es lo que lee
+# Netlify cuando el sitio se publica arrastrando la carpeta, caso en el que
+# netlify.toml no interviene porque queda fuera de lo que se sube.
+/*    /index.html   200
