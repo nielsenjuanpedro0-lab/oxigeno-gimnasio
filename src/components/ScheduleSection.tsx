@@ -19,7 +19,7 @@ const ScheduleSection = () => (
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <SectionHeader
           label="Horarios"
-          title="Horario corrido"
+          title="HORARIO CORRIDO"
           description="Vení a entrenar en el horario que mejor te quede."
           className="lg:col-span-5"
         />
@@ -32,7 +32,7 @@ const ScheduleSection = () => (
                 <tr key={item.day} className="border-t border-border">
                   <th
                     scope="row"
-                    className="py-6 text-left font-display text-lg font-medium sm:text-xl"
+                    className="py-6 text-left font-display text-xl uppercase sm:text-2xl"
                   >
                     {item.day}
                   </th>

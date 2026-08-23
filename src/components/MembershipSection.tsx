@@ -66,7 +66,7 @@ const MembershipSection = () => {
   return (
     <section id="membresias" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
-        <SectionHeader label="Membresías" title="Elegí tu plan" />
+        <SectionHeader label="Membresías" title="ELEGÍ TU" accent="PLAN" />
 
         {/* Desktop: comparación horizontal */}
         <Reveal className="mt-16 hidden lg:block">
@@ -86,7 +86,7 @@ const MembershipSection = () => {
                     }`}
                   >
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="section-label text-foreground text-xs">
+                      <span className="font-display text-2xl uppercase leading-none">
                         {plan.name}
                       </span>
                       {plan.featured && (
@@ -94,7 +94,7 @@ const MembershipSection = () => {
                       )}
                     </div>
                     <p className="mt-5 flex items-baseline gap-2">
-                      <span className="data text-[2rem] font-light text-foreground leading-none">
+                      <span className="data font-display text-[2.25rem] text-primary leading-none">
                         ${plan.price}
                       </span>
                       <span className="font-body text-[0.8125rem] text-muted-foreground">
@@ -150,14 +150,14 @@ const MembershipSection = () => {
                 }`}
               >
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="section-label text-foreground text-xs">{plan.name}</h3>
+                  <h3 className="font-display text-2xl uppercase leading-none">{plan.name}</h3>
                   {plan.featured && (
                     <span className="section-label text-primary">Más elegido</span>
                   )}
                 </div>
 
                 <p className="mt-4 flex items-baseline gap-2">
-                  <span className="data text-[2rem] font-light text-foreground leading-none">
+                  <span className="data font-display text-[2.25rem] text-primary leading-none">
                     ${plan.price}
                   </span>
                   <span className="font-body text-[0.8125rem] text-muted-foreground">

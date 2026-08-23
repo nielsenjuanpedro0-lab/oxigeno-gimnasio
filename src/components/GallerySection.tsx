@@ -35,7 +35,7 @@ const GallerySection = () => {
   return (
     <section id="instalaciones" className="bg-surface-1 py-24 lg:py-36">
       <div className="container">
-        <SectionHeader label="Instalaciones" title="Nuestro espacio" />
+        <SectionHeader label="Instalaciones" title="NUESTRO ESPACIO" />
 
         <Reveal className="mt-16">
           <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">

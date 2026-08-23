@@ -45,7 +45,7 @@ const testimonials = [
 const TestimonialsSection = () => (
   <section className="py-24 lg:py-36">
     <div className="container">
-      <SectionHeader label="Testimonios" title="Lo que dice la comunidad" />
+      <SectionHeader label="Testimonios" title="LO QUE DICE LA COMUNIDAD" />
 
       <div className="mt-16 grid gap-x-16 gap-y-2 md:grid-cols-2">
         {testimonials.map((t, i) => (

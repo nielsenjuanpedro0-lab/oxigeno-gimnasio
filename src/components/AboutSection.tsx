@@ -25,8 +25,8 @@ const AboutSection = () => (
   <section id="nosotros" className="bg-surface-1 py-24 lg:py-36">
     <div className="container">
       <SectionHeader
-        label="¿Por qué Oxígeno?"
-        title="Somos más que un gimnasio"
+        label="Por qué Oxígeno"
+        title="SOMOS MÁS QUE UN GIMNASIO"
         description="En Oxígeno el entrenamiento va más allá del cuerpo. Armamos un ambiente donde la energía, la comunidad y los resultados se encuentran."
         className="max-w-2xl"
       />

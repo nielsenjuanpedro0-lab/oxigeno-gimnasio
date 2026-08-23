@@ -40,20 +40,21 @@ const HeroSection = () => {
       </div>
 
       <div className="container relative">
-        <motion.p {...rise(0.15)} className="section-label text-muted-foreground mb-7">
+        <motion.p {...rise(0.15)} className="section-label text-primary mb-6">
           Gimnasio Oxígeno · Necochea
         </motion.p>
 
         {/*
-          El titular bajó de 10rem a 4rem. En una página premium la presencia la da
-          el espacio alrededor del texto, no el cuerpo de la tipografía; a 10rem en
-          condensada mayúscula la página gritaba.
+          La línea de marca, con la palabra final en ámbar sólido — el recurso que
+          usa el gimnasio en sus piezas. El problema del diseño original no era el
+          énfasis en color sino que iba en degradé y centrado en cada sección.
+          A 10rem desbordaba en pantallas angostas; 5.5rem sostiene sin gritar.
         */}
         <motion.h1
           {...rise(0.25)}
-          className="max-w-3xl font-display text-[2.5rem] font-medium leading-[1.05] sm:text-6xl lg:text-[4rem]"
+          className="max-w-4xl font-display text-[3rem] uppercase leading-[0.92] sm:text-7xl lg:text-[5.5rem]"
         >
-          Más que un gimnasio
+          Más que un <span className="text-primary">gimnasio</span>
         </motion.h1>
 
         <motion.p
@@ -82,10 +83,10 @@ const HeroSection = () => {
               key={stat.label}
               className="border-b border-border/70 py-5 sm:border-b-0 sm:border-r sm:border-border/70 sm:pr-6 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-8"
             >
-              <dt className="data text-xl font-light text-foreground leading-none">
+              <dt className="data font-display text-2xl text-foreground leading-none">
                 {stat.value}
               </dt>
-              <dd className="section-label text-muted-foreground mt-2.5">{stat.label}</dd>
+              <dd className="section-label text-muted-foreground mt-2.5 !tracking-[0.14em]">{stat.label}</dd>
             </div>
           ))}
         </motion.dl>

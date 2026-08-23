@@ -20,7 +20,7 @@ const RoutinesSection = () => (
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <SectionHeader
           label="Próximamente"
-          title="Tus rutinas en tu celular"
+          title="TUS RUTINAS EN TU CELULAR"
           description="Estamos desarrollando la app oficial de Oxígeno. Vas a poder acceder a rutinas personalizadas, seguir tu progreso y reservar turnos desde el celular."
           className="lg:col-span-5"
         />

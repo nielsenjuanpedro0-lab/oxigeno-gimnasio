@@ -55,7 +55,7 @@ const ActivitiesSection = () => {
   return (
     <section id="actividades" className="py-24 lg:py-36">
       <div className="container">
-        <SectionHeader label="Actividades" title="Todo lo que podés entrenar" />
+        <SectionHeader label="Actividades" title="TODO LO QUE PODÉS" accent="ENTRENAR" />
 
         {/* Índice de actividades: sin cajas, sin íconos. La numeración da el orden. */}
         <div className="mt-16 grid gap-x-20 md:grid-cols-2">
@@ -66,7 +66,7 @@ const ActivitiesSection = () => {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-body text-base font-medium leading-snug mb-1.5">
+                  <h3 className="font-display text-lg uppercase leading-snug mb-1.5">
                     {a.title}
                   </h3>
                   <p className="font-body text-sm text-muted-foreground leading-relaxed">
@@ -80,7 +80,7 @@ const ActivitiesSection = () => {
 
         {/* Clases con profe */}
         <div className="mt-28 lg:mt-40">
-          <SectionHeader label="Clases especiales" title="Entrená con profes" />
+          <SectionHeader label="Clases especiales" title="ENTRENÁ CON" accent="PROFES" />
 
           <div className="mt-16 space-y-16 lg:space-y-24">
             {featuredClasses.map((cls, i) => (
@@ -89,8 +89,8 @@ const ActivitiesSection = () => {
                   {/* Identidad */}
                   <div className="lg:col-span-5">
                     {/* El aviso va de kicker sobre el título: pegado a lo que califica. */}
-                    <p className="section-label text-signal mb-3">Cupos limitados</p>
-                    <h3 className="font-display text-2xl font-medium leading-tight sm:text-[1.75rem]">
+                    <p className="section-label text-primary mb-3">Cupos limitados</p>
+                    <h3 className="font-display text-[2rem] uppercase leading-none sm:text-4xl">
                       {cls.title}
                     </h3>
                     <p className="font-body text-muted-foreground mt-3">{cls.subtitle}</p>

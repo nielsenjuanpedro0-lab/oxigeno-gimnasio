@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter+Tight:wght@300..700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,52 +10,52 @@
      * Neutros tibios. El negro puro y el blanco puro dan un contraste duro;
      * un tinte cálido mínimo hace que la página se lea asentada en vez de estridente.
      */
-    --background: 30 5% 6%;
-    --surface-1: 30 5% 8%;
-    --surface-2: 30 4% 10%;
-    --foreground: 40 12% 94%;
+    --background: 0 0% 5%;
+    --surface-1: 0 0% 7%;
+    --surface-2: 0 0% 9%;
+    --foreground: 0 0% 98%;
 
-    --card: 30 4% 10%;
-    --card-foreground: 40 12% 94%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 30 5% 8%;
-    --popover-foreground: 40 12% 94%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 98%;
 
     /*
-     * Bronce apagado. El ámbar anterior (91% de saturación) era territorio de
-     * bebida energética; desaturado a 45% se lee metal, no neón.
+     * Ámbar del logo. Es el color de la marca en Instagram y en el isotipo;
+     * desaturarlo alejaba la web de las piezas reales del gimnasio.
      */
-    --primary: 36 45% 62%;
-    --primary-foreground: 30 6% 7%;
+    --primary: 37 91% 55%;
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 30 4% 10%;
-    --secondary-foreground: 40 12% 94%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 30 4% 10%;
-    --muted-foreground: 35 6% 58%;
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 62%;
 
-    /* Señal: cupos, urgencia, error. También desaturado. */
-    --signal: 8 52% 58%;
-    --accent: 8 52% 58%;
-    --accent-foreground: 40 12% 94%;
+    /* Rojo solo para errores reales de pago y validación. */
+    --signal: 4 70% 56%;
+    --accent: 37 91% 55%;
+    --accent-foreground: 0 0% 6%;
 
-    --destructive: 8 52% 52%;
-    --destructive-foreground: 40 12% 94%;
+    --destructive: 4 70% 52%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 30 5% 15%;
-    --input: 30 5% 15%;
-    --ring: 36 45% 62%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 37 91% 55%;
 
     --radius: 2px;
 
-    --sidebar-background: 30 5% 8%;
-    --sidebar-foreground: 40 12% 94%;
-    --sidebar-primary: 36 45% 62%;
-    --sidebar-primary-foreground: 30 6% 7%;
-    --sidebar-accent: 30 4% 12%;
-    --sidebar-accent-foreground: 40 12% 94%;
-    --sidebar-border: 30 5% 15%;
-    --sidebar-ring: 36 45% 62%;
+    --sidebar-background: 0 0% 7%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 37 91% 55%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 37 91% 55%;
   }
 }
 
@@ -71,17 +71,17 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
-    font-feature-settings: "cv05" 1, "ss01" 1;
   }
 
   /*
-   * Una sola familia en toda la página. La jerarquía la dan el peso, el tamaño y
-   * el tracking — no fuentes distintas. Los titulares van con tracking negativo,
-   * que es lo que separa una tipografía compuesta de una tipografía puesta.
+   * Titulares en Archivo condensada pesada, que es el registro tipográfico de las
+   * piezas del gimnasio en Instagram. El eje wdth de la variable permite condensar
+   * sin recurrir a una familia aparte.
    */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-medium;
-    letter-spacing: -0.022em;
+    @apply font-display;
+    font-variation-settings: "wdth" 80, "wght" 800;
+    letter-spacing: -0.005em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -100,16 +100,19 @@
 
 @layer components {
   /*
-   * Botones delgados. La altura baja, el peso baja y las mayúsculas se van:
-   * un botón premium no grita, sostiene.
+   * Botones al registro de las piezas de Instagram: píldora ámbar con etiqueta
+   * condensada en versalita. Lo que fallaba en el diseño original no era la forma
+   * de píldora sino el relleno translúcido al 10% con borde del mismo color, que
+   * dejaba el CTA en 2:1 de contraste y lo hacía leer como deshabilitado.
    */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-body font-medium
-           leading-none rounded-[2px] transition-colors duration-300
-           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
+    @apply inline-flex items-center justify-center gap-2 font-display uppercase
+           leading-none rounded-full transition-colors duration-300
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
            focus-visible:ring-offset-4 focus-visible:ring-offset-background
            disabled:opacity-40 disabled:pointer-events-none;
-    letter-spacing: -0.01em;
+    font-variation-settings: "wdth" 92, "wght" 700;
+    letter-spacing: 0.06em;
   }
 
   .btn-primary {
@@ -126,15 +129,15 @@
   }
 
   .btn-lg {
-    @apply text-[0.9375rem] px-7 h-[3.25rem];
+    @apply text-[0.9375rem] px-9 h-[3.375rem];
   }
 
   .btn-md {
-    @apply text-sm px-6 h-12;
+    @apply text-sm px-7 h-[3rem];
   }
 
   .btn-sm {
-    @apply text-[0.8125rem] px-5 h-10;
+    @apply text-[0.8125rem] px-6 h-10;
   }
 
   .link-underline {
@@ -149,8 +152,9 @@
    * —0.14em, no 0.3em—: abierto de más se vuelve decorativo.
    */
   .section-label {
-    @apply font-body text-[0.6875rem] font-medium uppercase;
-    letter-spacing: 0.14em;
+    @apply font-display text-[0.75rem] uppercase;
+    font-variation-settings: "wdth" 95, "wght" 700;
+    letter-spacing: 0.16em;
   }
 
   /*
@@ -158,6 +162,16 @@
    * horarios y precios alinean en columna sin recurrir a una monoespaciada, que
    * arrastraba estética de terminal.
    */
+  /*
+   * Los h1..h6 reciben el eje condensado por la regla base, pero un span con
+   * font-display no es un heading: sin esto Archivo cae a peso 400 ancho 100.
+   * Los botones no se ven afectados porque @apply inserta la declaración en .btn
+   * en vez de agregar la clase al elemento.
+   */
+  .font-display {
+    font-variation-settings: "wdth" 82, "wght" 800;
+  }
+
   .data {
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;

@@ -18,8 +18,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        // Una sola familia: la jerarquía la dan peso, tamaño y tracking.
-        display: ['"Inter Tight"', 'system-ui', 'sans-serif'],
+        // Archivo variable para titulares y etiquetas: es el registro de las piezas
+        // del gimnasio. Inter Tight queda para prosa e interfaz.
+        display: ['Archivo', 'system-ui', 'sans-serif'],
         body: ['"Inter Tight"', 'system-ui', 'sans-serif'],
       },
       colors: {
