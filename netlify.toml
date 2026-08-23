@@ -1,5 +1,10 @@
+# El repositorio traía tres archivos de bloqueo a la vez —package-lock.json,
+# bun.lock y bun.lockb—, herencia del andamiaje inicial. Con más de uno, qué gestor
+# de paquetes usa Netlify depende de su orden de detección, y el árbol de
+# dependencias instalado puede variar entre despliegues. Se conservó únicamente
+# package-lock.json, y el comando de build instala explícitamente con npm.
 [build]
-  command = "npm run build"
+  command = "npm ci && npm run build"
   publish = "dist"
 
 [build.environment]
