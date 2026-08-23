@@ -1,8 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter+Tight:wght@300..700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * Tipografías de reserva con métricas ajustadas.
+ *
+ * Sin compensar, al terminar de descargar la fuente todo el texto cambia de ancho y la
+ * página se recoloca de golpe: valía 0,202 de CLS, el doble del umbral aceptable.
+ * size-adjust escala la reserva para que ocupe lo mismo y el reemplazo no mueva nada.
+ *
+ * Los factores están medidos en el navegador comparando el MISMO peso en ambos lados
+ * (scripts/measure-font-metrics.mjs). Comparar Archivo 800 contra Arial regular daba
+ * 59,5% y dejaba la reserva demasiado angosta: el titular entraba en una línea y al
+ * cargar la fuente pasaba a dos, que es un salto peor que el original.
+ */
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans");
+  size-adjust: 88.1%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Inter Tight Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans");
+  size-adjust: 96.3%;
+  ascent-override: 100%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
 
 @layer base {
   :root {
@@ -107,12 +135,28 @@
    */
   .btn {
     @apply inline-flex items-center justify-center gap-2 font-display uppercase
-           leading-none rounded-full transition-colors duration-300
+           leading-none rounded-full will-change-transform
+           transition-[color,background-color,border-color,transform] duration-300
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
            focus-visible:ring-offset-4 focus-visible:ring-offset-background
            disabled:opacity-40 disabled:pointer-events-none;
     font-variation-settings: "wdth" 92, "wght" 700;
     letter-spacing: 0.06em;
+  }
+
+  /* Un pixel de elevación: se percibe como respuesta táctil, no como movimiento. */
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover {
+      transform: none;
+    }
   }
 
   .btn-primary {
@@ -138,6 +182,27 @@
 
   .btn-sm {
     @apply text-[0.8125rem] px-6 h-10;
+  }
+
+  /*
+   * Enlace de navegación: el subrayado se traza desde la izquierda al pasar el
+   * puntero, en vez de encenderse entero. Anima scaleX, no width, así que no
+   * dispara recálculo de layout en cada frame.
+   */
+  .nav-link {
+    @apply relative font-body text-sm text-muted-foreground transition-colors duration-300
+           hover:text-foreground;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-primary
+           transition-transform duration-300 ease-out;
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    @apply scale-x-100;
   }
 
   .link-underline {

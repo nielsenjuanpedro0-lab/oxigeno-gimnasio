@@ -1,5 +1,6 @@
-import { motion, useReducedMotion } from "framer-motion";
-import gymWall from "@/assets/gym-5.jpg";
+import { m, useReducedMotion } from "framer-motion";
+import gymWall from "@/assets/gym-5.webp";
+import gymWallSm from "@/assets/gym-5@sm.webp";
 
 /**
  * Franja de manifiesto.
@@ -18,10 +19,15 @@ const StatementBand = () => {
       <div className="absolute inset-0">
         <img
           src={gymWall}
+          srcSet={`${gymWallSm} 700w, ${gymWall} 1400w`}
+          sizes="100vw"
           alt=""
           aria-hidden="true"
-          className="h-full w-full object-cover grayscale"
+          width={1400}
+          height={788}
           loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover grayscale"
         />
         {/*
           Velo fuerte y desaturado: la foto acá es textura de fondo, no protagonista.
@@ -32,7 +38,7 @@ const StatementBand = () => {
       </div>
 
       <div className="container relative py-24 lg:py-36">
-        <motion.p
+        <m.p
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -40,7 +46,7 @@ const StatementBand = () => {
           className="mx-auto max-w-4xl text-center font-display text-[2rem] uppercase leading-[0.95] sm:text-5xl lg:text-[4rem]"
         >
           Somos más que un <span className="text-primary">gimnasio</span>
-        </motion.p>
+        </m.p>
       </div>
     </section>
   );

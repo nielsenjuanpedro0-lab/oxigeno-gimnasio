@@ -1,4 +1,6 @@
-import gymFloor from "@/assets/gym-floor.jpg";
+import gymFloor from "@/assets/gym-floor.webp";
+import gymFloorSm from "@/assets/gym-floor@sm.webp";
+import Picture from "./Picture";
 import SectionHeader from "./SectionHeader";
 import Reveal from "./Reveal";
 
@@ -30,11 +32,14 @@ const AboutSection = () => (
       <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-7">
           <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/10] lg:aspect-[4/3]">
-            <img
+            <Picture
               src={gymFloor}
+              srcSmall={gymFloorSm}
               alt="Sala de entrenamiento del Gimnasio Oxígeno"
+              width={1200}
+              height={900}
+              sizes="(min-width: 1024px) 58vw, 100vw"
               className="h-full w-full object-cover"
-              loading="lazy"
             />
           </div>
         </Reveal>

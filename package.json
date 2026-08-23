@@ -10,7 +10,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "images": "python3 scripts/optimize-images.py",
+    "shots": "node scripts/shots.mjs",
+    "check:opacity": "node scripts/check-opacity.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:headings": "node scripts/check-headings.mjs",
+    "check:perf": "node scripts/check-perf.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

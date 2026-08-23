@@ -1,25 +1,162 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gimnasio Oxígeno — Tu Gimnasio Premium en Necochea</title>
-    <meta name="description" content="Gimnasio Oxígeno: fuerza, comunidad y resultados reales en Necochea. Sala de fuerza, clases grupales, funcional y más. ¡Tu mejor versión empieza aquí!">
-    <meta name="author" content="Gimnasio Oxígeno" />
-    <link rel="canonical" href="https://gimnasiooxigeno.com.ar" />
 
-    
-    
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/HRCaAZHJJINgkEIjkLTx6siG9SK2/social-images/social-1774040382685-DSCF8987.webp">
+    <title>Gimnasio Oxígeno — Gimnasio en Necochea | Sala de fuerza y clases</title>
+    <meta
+      name="description"
+      content="Gimnasio en Necochea, Av. 58 n° 3752. Sala de fuerza, clases aeróbicas, funcional y G.A.P. Abierto de lunes a viernes de 7:00 a 21:30 y sábados de 8:00 a 14:00. Planes desde $20.000."
+    />
+    <link rel="canonical" href="https://gimnasiooxigeno.com.ar/" />
+
+    <!-- Los tipos se traen de un host externo: sin preconnect el navegador espera al
+         DNS y al TLS recién cuando encuentra el @import del CSS. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      display=optional en lugar de swap: con swap el navegador pinta primero con la
+      tipografía de reserva y después reemplaza, y ese reemplazo recoloca toda la página.
+      Con optional usa la fuente web solo si llegó a tiempo y, si no, se queda con la
+      reserva sin volver a maquetar. Es la única variante que garantiza cero salto.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter+Tight:wght@300..700&display=optional"
+    />
+
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="author" content="Gimnasio Oxígeno" />
+
+    <!-- Señales geográficas para búsqueda local. -->
+    <meta name="geo.region" content="AR-B" />
+    <meta name="geo.placename" content="Necochea, Buenos Aires" />
+
+    <meta property="og:type" content="business.business" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="Gimnasio Oxígeno" />
+    <meta property="og:url" content="https://gimnasiooxigeno.com.ar/" />
+    <meta property="og:title" content="Gimnasio Oxígeno — Gimnasio en Necochea" />
+    <meta
+      property="og:description"
+      content="Sala de fuerza, clases aeróbicas, funcional y G.A.P en Necochea. Planes desde $20.000."
+    />
+    <meta property="og:image" content="https://gimnasiooxigeno.com.ar/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Interior del Gimnasio Oxígeno en Necochea" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/HRCaAZHJJINgkEIjkLTx6siG9SK2/social-images/social-1774040382685-DSCF8987.webp">
-    <meta property="og:title" content="Gimnasio Oxígeno — Tu Gimnasio Premium en Necochea">
-  <meta name="twitter:title" content="Gimnasio Oxígeno — Tu Gimnasio Premium en Necochea">
-  <meta property="og:description" content="Gimnasio Oxígeno: fuerza, comunidad y resultados reales en Necochea. Sala de fuerza, clases grupales, funcional y más. ¡Tu mejor versión empieza aquí!">
-  <meta name="twitter:description" content="Gimnasio Oxígeno: fuerza, comunidad y resultados reales en Necochea. Sala de fuerza, clases grupales, funcional y más. ¡Tu mejor versión empieza aquí!">
-</head>
+    <meta name="twitter:title" content="Gimnasio Oxígeno — Gimnasio en Necochea" />
+    <meta
+      name="twitter:description"
+      content="Sala de fuerza, clases aeróbicas, funcional y G.A.P en Necochea. Planes desde $20.000."
+    />
+    <meta name="twitter:image" content="https://gimnasiooxigeno.com.ar/og-image.jpg" />
+
+    <!--
+      Datos estructurados.
+
+      Van en el HTML estático a propósito: esta es una SPA, así que el contenido de la
+      página aparece recién después de ejecutar JavaScript. Los buscadores lo renderizan,
+      pero muchos rastreadores de motores generativos no. Este bloque les da los datos
+      del negocio —dirección, horarios, precios, contacto— sin depender de JavaScript.
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthClub",
+      "@id": "https://gimnasiooxigeno.com.ar/#gimnasio",
+      "name": "Gimnasio Oxígeno",
+      "alternateName": "Oxígeno Gym",
+      "description": "Gimnasio en Necochea con sala de fuerza, actividades aeróbicas y clases grupales guiadas por profesores.",
+      "url": "https://gimnasiooxigeno.com.ar/",
+      "image": "https://gimnasiooxigeno.com.ar/og-image.jpg",
+      "telephone": "+5492262664679",
+      "priceRange": "$$",
+      "currenciesAccepted": "ARS",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. 58 n° 3752",
+        "addressLocality": "Necochea",
+        "addressRegion": "Buenos Aires",
+        "postalCode": "7630",
+        "addressCountry": "AR"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Necochea"
+      },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Av.+58+3752+Necochea+Buenos+Aires",
+      "sameAs": ["https://www.instagram.com/oxigeno.fitnessgym_"],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "07:00",
+          "closes": "21:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "14:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "00:00",
+          "closes": "00:00"
+        }
+      ],
+      "amenityFeature": [
+        { "@type": "LocationFeatureSpecification", "name": "Sala de fuerza", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Actividades aeróbicas", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Zona de cardio", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Clases grupales", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Showroom Hype Fitness", "value": true }
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Plan Black",
+          "description": "Acceso libre diario, sin restricción horaria.",
+          "price": "70000",
+          "priceCurrency": "ARS",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Plan Silver",
+          "description": "Acceso 3 veces por semana.",
+          "price": "60000",
+          "priceCurrency": "ARS",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Clase individual",
+          "description": "Una clase, acceso por el día.",
+          "price": "20000",
+          "priceCurrency": "ARS",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://gimnasiooxigeno.com.ar/",
+      "name": "Gimnasio Oxígeno",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://gimnasiooxigeno.com.ar/#gimnasio" }
+    }
+    </script>
+  </head>
 
   <body>
     <div id="root"></div>

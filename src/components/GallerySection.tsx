@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import gym1 from "@/assets/gym-1.jpg";
-import gym2 from "@/assets/gym-2.jpg";
-import gym3 from "@/assets/gym-3.jpg";
-import gym4 from "@/assets/gym-4.jpg";
-import gym5 from "@/assets/gym-5.jpg";
+import gym1 from "@/assets/gym-1.webp";
+import gym1sm from "@/assets/gym-1@sm.webp";
+import gym2 from "@/assets/gym-2.webp";
+import gym2sm from "@/assets/gym-2@sm.webp";
+import gym3 from "@/assets/gym-3.webp";
+import gym3sm from "@/assets/gym-3@sm.webp";
+import gym4 from "@/assets/gym-4.webp";
+import gym4sm from "@/assets/gym-4@sm.webp";
+import gym5 from "@/assets/gym-5.webp";
+import gym5sm from "@/assets/gym-5@sm.webp";
 import SectionHeader from "./SectionHeader";
 import Reveal from "./Reveal";
 
 const images = [
-  { src: gym1, alt: "Zona de mancuernas", span: "col-span-2 row-span-2" },
-  { src: gym2, alt: "Zona de peso libre", span: "" },
-  { src: gym3, alt: "Zona de spinning", span: "" },
-  { src: gym4, alt: "Entrada al gimnasio", span: "" },
-  { src: gym5, alt: "Sala de máquinas", span: "" },
+  { src: gym1, sm: gym1sm, alt: "Zona de mancuernas", span: "col-span-2 row-span-2" },
+  { src: gym2, sm: gym2sm, alt: "Zona de peso libre", span: "" },
+  { src: gym3, sm: gym3sm, alt: "Zona de spinning", span: "" },
+  { src: gym4, sm: gym4sm, alt: "Entrada al gimnasio", span: "" },
+  { src: gym5, sm: gym5sm, alt: "Sala de máquinas", span: "" },
 ];
 
 const GallerySection = () => {
@@ -55,9 +60,14 @@ const GallerySection = () => {
               >
                 <img
                   src={img.src}
+                  srcSet={`${img.sm} 700w, ${img.src} 1400w`}
+                  sizes="(min-width: 1024px) 25vw, 50vw"
                   alt={img.alt}
-                  className="h-full min-h-[160px] w-full object-cover transition-opacity duration-300 group-hover:opacity-70 sm:min-h-[200px]"
+                  width={1400}
+                  height={788}
                   loading="lazy"
+                  decoding="async"
+                  className="h-full min-h-[160px] w-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.03] group-hover:opacity-80 sm:min-h-[200px]"
                 />
                 <span className="section-label absolute bottom-3 left-3 text-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
                   {img.alt}
@@ -69,7 +79,7 @@ const GallerySection = () => {
 
       <AnimatePresence>
         {lightbox && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -92,7 +102,7 @@ const GallerySection = () => {
               alt={lightbox.alt}
               className="max-h-[85vh] max-w-full object-contain"
             />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </section>

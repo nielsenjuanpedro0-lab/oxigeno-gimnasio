@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePayment } from "@/contexts/PaymentContext";
-import AuthModal from "./AuthModal";
+
 import logo from "@/assets/logo.png";
+
+/** Solo se descarga cuando el visitante abre el acceso. */
+const AuthModal = lazy(() => import("./AuthModal"));
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -48,7 +51,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                className="nav-link"
               >
                 {link.label}
               </a>
@@ -95,7 +98,7 @@ const Navbar = () => {
       {/* Mobile overlay */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -110,7 +113,7 @@ const Navbar = () => {
             </button>
             <div className="flex flex-col items-center gap-6">
               {navLinks.map((link, i) => (
-                <motion.a
+                <m.a
                   key={link.href}
                   href={link.href}
                   initial={{ opacity: 0, y: 20 }}
@@ -120,7 +123,7 @@ const Navbar = () => {
                   className="font-display text-3xl font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {link.label}
-                </motion.a>
+                </m.a>
               ))}
               <button
                 onClick={() => { openPayment(DEFAULT_PLAN); setMobileOpen(false); }}
@@ -144,11 +147,15 @@ const Navbar = () => {
                 </button>
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
+      {authOpen && (
+        <Suspense fallback={null}>
+          <AuthModal open onClose={() => setAuthOpen(false)} />
+        </Suspense>
+      )}
     </>
   );
 };

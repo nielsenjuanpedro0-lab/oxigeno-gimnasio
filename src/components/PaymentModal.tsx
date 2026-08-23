@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X, Loader2, User, Mail, Phone, CreditCard, Copy, CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -114,14 +114,14 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
   return (
     <AnimatePresence>
       {open && plan && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[200] flex items-center justify-center bg-background/80 backdrop-blur-sm p-4"
           onClick={handleClose}
         >
-          <motion.div
+          <m.div
             initial={{ y: 20, opacity: 0, scale: 0.97 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 10, opacity: 0, scale: 0.97 }}
@@ -166,7 +166,7 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
             <div className="px-7 py-6">
               <AnimatePresence mode="wait">
                 {step === 1 && (
-                  <motion.form
+                  <m.form
                     key="step1"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -200,9 +200,9 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                     </div>
 
                     {error && (
-                      <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-destructive text-sm font-body bg-destructive/10 rounded-lg px-3 py-2">
+                      <m.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-destructive text-sm font-body bg-destructive/10 rounded-lg px-3 py-2">
                         {error}
-                      </motion.p>
+                      </m.p>
                     )}
 
                     <button
@@ -211,11 +211,11 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                     >
                       Continuar →
                     </button>
-                  </motion.form>
+                  </m.form>
                 )}
 
                 {step === 2 && (
-                  <motion.form
+                  <m.form
                     key="step2"
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -246,9 +246,9 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                     </div>
 
                     {error && (
-                      <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-destructive text-sm font-body bg-destructive/10 rounded-lg px-3 py-2">
+                      <m.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-destructive text-sm font-body bg-destructive/10 rounded-lg px-3 py-2">
                         {error}
-                      </motion.p>
+                      </m.p>
                     )}
 
                     <div className="flex gap-3">
@@ -273,11 +273,11 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                         )}
                       </button>
                     </div>
-                  </motion.form>
+                  </m.form>
                 )}
 
                 {step === 3 && (
-                  <motion.div
+                  <m.div
                     key="step3"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -362,12 +362,12 @@ const PaymentModal = ({ open, onClose, plan }: PaymentModalProps) => {
                     <p className="text-xs text-muted-foreground/70 text-center font-body">
                       Una vez confirmado el pago, te habilitamos el acceso al gym 💪
                     </p>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

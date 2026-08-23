@@ -20,8 +20,8 @@ export default {
       fontFamily: {
         // Archivo variable para titulares y etiquetas: es el registro de las piezas
         // del gimnasio. Inter Tight queda para prosa e interfaz.
-        display: ['Archivo', 'system-ui', 'sans-serif'],
-        body: ['"Inter Tight"', 'system-ui', 'sans-serif'],
+        display: ['Archivo', '"Archivo Fallback"', 'system-ui', 'sans-serif'],
+        body: ['"Inter Tight"', '"Inter Tight Fallback"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

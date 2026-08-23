@@ -1,4 +1,6 @@
+import { m, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
+import RevealText from "./RevealText";
 
 interface SectionHeaderProps {
   label: string;
@@ -34,34 +36,54 @@ const SectionHeader = ({
   className = "",
 }: SectionHeaderProps) => {
   const centered = align === "center";
+  const reduced = useReducedMotion();
+
+  /* La regla se traza de un extremo al otro en vez de aparecer: da entrada a la sección. */
+  const regla = reduced
+    ? {}
+    : {
+        initial: { scaleX: 0 },
+        whileInView: { scaleX: 1 },
+        viewport: { once: true, margin: "-60px" },
+        transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const, delay: 0.1 },
+      };
 
   return (
-    <Reveal className={className}>
-      <div className={`flex items-center gap-5 mb-6 ${centered ? "justify-center" : ""}`}>
-        {centered && <span className="h-px w-12 bg-border" />}
-        <span className="section-label text-primary shrink-0">{label}</span>
-        <span className={`h-px bg-border ${centered ? "w-12" : "flex-1"}`} />
-      </div>
+    <div className={className}>
+      <Reveal>
+        <div className={`flex items-center gap-5 mb-6 ${centered ? "justify-center" : ""}`}>
+          {centered && (
+            <m.span {...regla} className="h-px w-12 origin-right bg-border" />
+          )}
+          <span className="section-label text-primary shrink-0">{label}</span>
+          <m.span
+            {...regla}
+            className={`h-px origin-left bg-border ${centered ? "w-12" : "flex-1"}`}
+          />
+        </div>
+      </Reveal>
 
-      <h2
+      <RevealText
+        accent={accent}
         className={`font-display text-[2.25rem] uppercase leading-[0.95] sm:text-5xl lg:text-[3.5rem] ${
           centered ? "text-center" : ""
         }`}
       >
         {title}
-        {accent && <> <span className="text-primary">{accent}</span></>}
-      </h2>
+      </RevealText>
 
       {description && (
-        <p
-          className={`font-body text-[0.9375rem] text-muted-foreground mt-6 max-w-lg leading-relaxed ${
-            centered ? "mx-auto text-center" : ""
-          }`}
-        >
-          {description}
-        </p>
+        <Reveal delay={0.15}>
+          <p
+            className={`font-body text-[0.9375rem] text-muted-foreground mt-6 max-w-lg leading-relaxed ${
+              centered ? "mx-auto text-center" : ""
+            }`}
+          >
+            {description}
+          </p>
+        </Reveal>
       )}
-    </Reveal>
+    </div>
   );
 };
 

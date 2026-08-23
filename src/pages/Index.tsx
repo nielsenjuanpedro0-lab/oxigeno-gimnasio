@@ -11,8 +11,14 @@ import RoutinesSection from "@/components/RoutinesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import MobileCTA from "@/components/MobileCTA";
-import PaymentModal from "@/components/PaymentModal";
+import { Suspense, lazy } from "react";
 import { PaymentProvider, usePayment } from "@/contexts/PaymentContext";
+
+/**
+ * El modal de pago arrastra supabase-js y solo aparece al elegir un plan: cargarlo
+ * bajo demanda lo saca del bundle inicial, que es lo que define el tiempo de carga.
+ */
+const PaymentModal = lazy(() => import("@/components/PaymentModal"));
 
 /**
  * Orden de la página.
@@ -39,11 +45,11 @@ const IndexContent = () => {
       <TestimonialsSection />
       <Footer />
       <MobileCTA />
-      <PaymentModal
-        open={!!selectedPlan}
-        onClose={closePayment}
-        plan={selectedPlan}
-      />
+      {selectedPlan && (
+        <Suspense fallback={null}>
+          <PaymentModal open onClose={closePayment} plan={selectedPlan} />
+        </Suspense>
+      )}
     </main>
   );
 };
