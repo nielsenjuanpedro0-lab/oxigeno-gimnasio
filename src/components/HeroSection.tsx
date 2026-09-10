@@ -1,102 +1,125 @@
-import { motion } from "framer-motion";
-import { ArrowDown, Play } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
-const stats = [
-  { value: "2,385", label: "Miembros" },
-  { value: "Sala de", label: "Fuerza" },
-  { value: "Actividades", label: "Aeróbicas" },
+const facts = [
+  { value: "14:30 hs", label: "abierto por día" },
+  { value: "3 salas", label: "fuerza · cardio · aeróbica" },
+  { value: "Lun a Sáb", label: "sin cortes al mediodía" },
 ];
 
+const ease = [0.36, 0.6, 0, 1] as const;
+
 const HeroSection = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.16]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
+    <section
+      id="inicio"
+      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden"
+    >
+      {/* Imagen a sangre completa */}
       <div className="absolute inset-0">
-        <img src={heroBg} alt="Gimnasio Oxígeno interior" className="w-full h-full object-cover scale-150 sm:scale-100" loading="eager" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/60 to-transparent" />
+        <motion.img
+          src={heroBg}
+          alt="Sala de entrenamiento de Gimnasio Oxígeno"
+          style={{ y: imgY, scale: imgScale }}
+          className="absolute inset-0 w-full h-[115%] object-cover object-[60%_center] sm:object-center"
+          loading="eager"
+        />
+        {/* Legibilidad: sombra sólo donde hay texto, la foto respira en el resto */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/75 via-background/10 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background/70 to-transparent" />
         <div className="absolute inset-0 grain-overlay" />
       </div>
 
-      <div className="relative container mx-auto px-4 lg:px-8 pt-20">
-        <div className="max-w-4xl">
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="relative container mx-auto px-4 lg:px-8 pb-12 lg:pb-16 pt-32"
+      >
+        <div className="max-w-3xl">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="section-label mb-6"
+            transition={{ duration: 0.7, ease }}
+            className="section-label mb-5 flex items-center gap-2.5 text-foreground/70"
           >
-            GIMNASIO OXÍGENO — NECOCHEA
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            Gimnasio Oxígeno · Necochea
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="font-display text-7xl sm:text-8xl lg:text-[10rem] leading-[0.85] tracking-tight mb-6"
+            transition={{ duration: 0.9, ease, delay: 0.08 }}
+            className="font-display text-[2.75rem] sm:text-6xl lg:text-[5.5rem] font-medium leading-[1.02] tracking-[-0.035em] mb-6 [text-shadow:0_2px_40px_hsl(0_0%_0%/0.5)]"
           >
-            MÁS QUE
+            Abierto cuando
             <br />
-            <span className="text-gradient-amber">UN GIMNASIO.</span>
+            <span className="text-foreground/65">podés entrenar.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="font-body text-lg lg:text-xl text-muted-foreground max-w-xl mb-10"
+            transition={{ duration: 0.8, ease, delay: 0.2 }}
+            className="font-body text-lg lg:text-xl text-foreground/80 max-w-lg leading-relaxed mb-9 [text-shadow:0_1px_20px_hsl(0_0%_0%/0.7)]"
           >
-            Fuerza, comunidad y resultados reales. Tu mejor versión empieza aquí.
+            De 7 de la mañana a 9 y media de la noche, de corrido. Vos elegís
+            el horario; nosotros ya estamos adentro.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="flex flex-wrap gap-4"
+            transition={{ duration: 0.8, ease, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-3 mb-10 lg:mb-14"
           >
             <a
               href="#membresias"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-body font-semibold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:shadow-[0_0_30px_hsl(355_72%_56%/0.4)] inline-flex items-center gap-2"
+              className="group bg-foreground text-background font-body font-medium px-7 py-3.5 rounded-full text-[15px] transition-all duration-500 ease-fluid hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-2"
             >
-              Comenzar ahora <span>→</span>
+              Ver planes y precios
+              <ArrowRight className="w-4 h-4 transition-transform duration-500 ease-fluid group-hover:translate-x-1" />
             </a>
             <a
               href="#instalaciones"
-              className="border border-border hover:border-primary/50 text-foreground font-body font-medium px-8 py-4 rounded-full text-lg transition-all duration-300 inline-flex items-center gap-2 hover:bg-secondary"
+              className="glass-card-hover font-body font-medium px-7 py-3.5 rounded-full text-[15px] text-foreground"
             >
-              <Play className="w-4 h-4 text-primary" /> Ver instalaciones
+              Recorrer el lugar
             </a>
           </motion.div>
         </div>
 
-        {/* Floating stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="mt-16 lg:mt-24 flex flex-wrap gap-4 lg:gap-6"
-        >
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="glass-card rounded-xl px-6 py-4 flex items-center gap-3"
+        <div className="flex flex-wrap gap-2.5 lg:gap-3">
+          {facts.map((fact, i) => (
+            <motion.div
+              key={fact.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease, delay: 0.5 + i * 0.09 }}
+              className="glass-card rounded-full pl-4 pr-5 py-2.5 flex items-baseline gap-2.5"
             >
-              <span className="font-display text-2xl text-primary">{stat.value}</span>
-              <span className="font-body text-sm text-muted-foreground">{stat.label}</span>
-            </div>
+              <span className="font-display text-base font-medium text-foreground tnum">
+                {fact.value}
+              </span>
+              <span className="font-body text-[13px] text-foreground/60">
+                {fact.label}
+              </span>
+            </motion.div>
           ))}
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <ArrowDown className="w-6 h-6 text-primary/60" />
+        </div>
       </motion.div>
     </section>
   );

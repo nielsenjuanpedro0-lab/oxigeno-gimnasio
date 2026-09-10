@@ -1,10 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-
-interface PlanInfo {
-  name: string;
-  price: string;
-  priceNum: number;
-}
+import type { PlanInfo } from "@/lib/membership";
 
 interface PaymentContextType {
   selectedPlan: PlanInfo | null;

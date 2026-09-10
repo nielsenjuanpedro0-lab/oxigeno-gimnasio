@@ -60,33 +60,20 @@ serve(async (req) => {
 
         // If payment approved, set membership dates
         if (payment.status === "approved") {
-          const startDate = new Date();
-          const endDate = new Date();
-          endDate.setMonth(endDate.getMonth() + 1);
-          updateData.membership_start = startDate.toISOString().split("T")[0];
-          updateData.membership_end = endDate.toISOString().split("T")[0];
-
-          // Auto-create auth account for the member
           const { data: member } = await supabase
             .from("members")
-            .select("email, full_name")
+            .select("plan")
             .eq("id", memberId)
             .single();
 
-          if (member) {
-            // Create auth user with a temporary password (they can reset it)
-            const tempPassword = crypto.randomUUID().slice(0, 12);
-            const { error: authError } = await supabase.auth.admin.createUser({
-              email: member.email,
-              password: tempPassword,
-              email_confirm: true,
-              user_metadata: { full_name: member.full_name },
-            });
+          const startDate = new Date();
+          updateData.membership_start = startDate.toISOString().split("T")[0];
 
-            if (authError && !authError.message.includes("already been registered")) {
-              console.error("Auth user creation error:", authError);
-            }
-          }
+          // Una clase suelta vale por el día; los planes mensuales, un mes
+          const endDate = new Date();
+          const isSingleClass = String(member?.plan ?? "").toUpperCase().startsWith("CLASE");
+          if (!isSingleClass) endDate.setMonth(endDate.getMonth() + 1);
+          updateData.membership_end = endDate.toISOString().split("T")[0];
         }
 
         const { error: updateError } = await supabase

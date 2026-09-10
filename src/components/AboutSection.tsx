@@ -1,59 +1,93 @@
 import { motion } from "framer-motion";
-import { Dumbbell, Users, Flame, MapPin } from "lucide-react";
 import gymFloor from "@/assets/gym-floor.jpg";
 
-const features = [
-  { icon: Dumbbell, title: "Equipamiento de primer nivel", desc: "Máquinas y peso libre de última generación" },
-  { icon: Users, title: "Comunidad Sport Club", desc: "Un espacio donde la motivación es colectiva" },
-  { icon: Flame, title: "Showroom Hype Fitness", desc: "La zona más intensa de entrenamiento" },
-  { icon: MapPin, title: "Necochea, Av 58 n° 3752", desc: "Tu gimnasio premium en la costa argentina" },
+const ease = [0.36, 0.6, 0, 1] as const;
+
+const points = [
+  {
+    n: "01",
+    title: "Equipamiento que acompaña",
+    desc: "Peso libre y máquinas guiadas que cubren desde la primera rutina hasta la carga alta. No te vas a quedar sin progresión.",
+  },
+  {
+    n: "02",
+    title: "Comunidad Sport Club",
+    desc: "Las mismas caras a la misma hora, semana tras semana. Entrenar acompañado sostiene la constancia mejor que cualquier plan.",
+  },
+  {
+    n: "03",
+    title: "Showroom Hype Fitness",
+    desc: "La sala funciona como showroom de la marca: las máquinas que se exhiben son las mismas sobre las que entrenás.",
+  },
+  {
+    n: "04",
+    title: "Dentro del Supermercado Toledo",
+    desc: "Av. 58 n° 3752, Necochea. Entrenás donde ya venías: una parada menos en el día.",
+  },
 ];
 
 const AboutSection = () => (
-  <section id="nosotros" className="py-24 lg:py-32">
+  <section id="nosotros" className="py-20 lg:py-32">
     <div className="container mx-auto px-4 lg:px-8">
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-auto lg:h-[600px]"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, ease }}
+          className="lg:col-span-5 lg:sticky lg:top-32"
         >
-          <img src={gymFloor} alt="Instalaciones Gimnasio Oxígeno" className="w-full h-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <p className="section-label mb-4">¿POR QUÉ OXÍGENO?</p>
-          <h2 className="font-display text-5xl lg:text-6xl tracking-tight mb-8">
-            SOMOS MÁS QUE
-            <br />
-            <span className="text-gradient-amber">UN GIMNASIO</span>
+          <p className="section-label mb-4">Nosotros</p>
+          <h2 className="font-display text-4xl lg:text-[3.25rem] font-medium tracking-[-0.03em] leading-[1.05] mb-6">
+            Un espacio pensado en serio
           </h2>
-          <p className="font-body text-muted-foreground mb-10 text-lg leading-relaxed">
-            En Oxígeno creemos que el entrenamiento va más allá del cuerpo. Creamos un ambiente donde
-            la energía, la comunidad y los resultados se encuentran.
+          <p className="font-body text-muted-foreground text-lg leading-relaxed">
+            El equipamiento, los horarios y hasta dónde está el gimnasio: cada
+            decisión está tomada para sacar fricción entre tu día y el
+            entrenamiento.
           </p>
-
-          <div className="space-y-6">
-            {features.map((f) => (
-              <div key={f.title} className="flex items-start gap-4 border-l-2 border-primary/40 pl-5 hover:border-primary transition-colors duration-300">
-                <f.icon className="w-6 h-6 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <h3 className="font-body font-semibold text-foreground mb-1">{f.title}</h3>
-                  <p className="font-body text-sm text-muted-foreground">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </motion.div>
+
+        <div className="lg:col-span-7 grid sm:grid-cols-2 gap-3 lg:gap-4">
+          {points.map((p, i) => (
+            <motion.div
+              key={p.n}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, ease, delay: (i % 2) * 0.08 }}
+              className="surface-hover rounded-4xl p-7 lg:p-8 flex flex-col"
+            >
+              <span className="font-display text-[13px] text-primary tnum mb-5">
+                {p.n}
+              </span>
+              <h3 className="font-display text-lg lg:text-xl font-medium tracking-tight mb-2.5">
+                {p.title}
+              </h3>
+              <p className="font-body text-[15px] text-foreground/60 leading-relaxed">
+                {p.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
+
+      {/* Franja panorámica: aporta imagen sin competir con las tarjetas */}
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.9, ease }}
+        className="relative rounded-4xl lg:rounded-6xl overflow-hidden aspect-[16/9] lg:aspect-[21/8] mt-4 lg:mt-16 group"
+      >
+        <img
+          src={gymFloor}
+          alt="Piso principal de Gimnasio Oxígeno"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.4s] ease-fluid group-hover:scale-[1.03]"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+      </motion.div>
     </div>
   </section>
 );

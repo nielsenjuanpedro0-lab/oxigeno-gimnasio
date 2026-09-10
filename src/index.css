@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,23 +6,28 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 3%;
+    --foreground: 0 0% 91%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 100%;
+    /* Superficies escalonadas: cada nivel se despega del fondo sin borde duro */
+    --surface-1: 0 0% 6%;
+    --surface-2: 0 0% 9%;
+    --surface-3: 0 0% 13%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 100%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 91%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 91%;
 
     --primary: 37 91% 55%;
     --primary-foreground: 0 0% 4%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 91%;
 
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 54%;
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 52%;
 
     --accent: 355 72% 56%;
     --accent-foreground: 0 0% 100%;
@@ -30,19 +35,19 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
     --ring: 37 91% 55%;
 
-    --radius: 0.5rem;
+    --radius: 1.25rem;
 
     --sidebar-background: 0 0% 6%;
-    --sidebar-foreground: 0 0% 100%;
+    --sidebar-foreground: 0 0% 91%;
     --sidebar-primary: 37 91% 55%;
     --sidebar-primary-foreground: 0 0% 4%;
     --sidebar-accent: 0 0% 12%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 16%;
+    --sidebar-accent-foreground: 0 0% 91%;
+    --sidebar-border: 0 0% 14%;
     --sidebar-ring: 37 91% 55%;
   }
 }
@@ -54,16 +59,32 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     @apply bg-background text-foreground font-body;
-    cursor: crosshair;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display font-medium;
+    letter-spacing: -0.02em;
   }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.9);
+    color: hsl(var(--primary-foreground));
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--surface-3));
+    border-radius: 9999px;
+    border: 3px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(0 0% 20%); }
 }
 
 @layer utilities {
@@ -71,19 +92,60 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-400;
   }
 
+  /* Superficie base: relleno sólido + hairline por shadow, sin border que sume 1px al layout */
+  .surface {
+    background: hsl(var(--surface-1));
+    box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.05);
+  }
+
+  .surface-raised {
+    background: hsl(var(--surface-2));
+    box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.07);
+  }
+
+  .surface-hover {
+    @apply surface transition-all duration-500;
+    transition-timing-function: cubic-bezier(0.36, 0.6, 0, 1);
+  }
+
+  .surface-hover:hover {
+    background: hsl(var(--surface-2));
+    box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.11);
+  }
+
   .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+    background: hsl(var(--surface-1) / 0.72);
+    backdrop-filter: blur(24px);
+    box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.06);
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)];
+    @apply glass-card transition-all duration-500;
+    transition-timing-function: cubic-bezier(0.36, 0.6, 0, 1);
+  }
+
+  .glass-card-hover:hover {
+    background: hsl(var(--surface-2) / 0.85);
+    box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 0.12);
   }
 
   .section-label {
-    @apply text-xs font-body uppercase tracking-[0.3em] text-primary font-medium;
+    @apply text-[13px] font-body text-muted-foreground font-normal;
   }
 
+  .ease-fluid {
+    transition-timing-function: cubic-bezier(0.36, 0.6, 0, 1);
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
   .grain-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
   }
 }

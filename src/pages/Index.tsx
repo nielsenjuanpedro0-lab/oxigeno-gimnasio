@@ -10,6 +10,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import MobileCTA from "@/components/MobileCTA";
 import PaymentModal from "@/components/PaymentModal";
+import PaymentReturn from "@/components/PaymentReturn";
 import { PaymentProvider, usePayment } from "@/contexts/PaymentContext";
 
 const IndexContent = () => {
@@ -21,11 +22,11 @@ const IndexContent = () => {
       <HeroSection />
       <AboutSection />
       <ActivitiesSection />
-      <ScheduleSection />
       <GallerySection />
+      <ScheduleSection />
+      <TestimonialsSection />
       <MembershipSection />
       <RoutinesSection />
-      <TestimonialsSection />
       <Footer />
       <MobileCTA />
       <PaymentModal
@@ -33,6 +34,7 @@ const IndexContent = () => {
         onClose={closePayment}
         plan={selectedPlan}
       />
+      <PaymentReturn />
     </main>
   );
 };
